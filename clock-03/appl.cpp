@@ -8,6 +8,7 @@
 #include "IClock.h" 
 
 void appl(IClock& c) {
+    c.TickUp();             c.Print(std::cout);
     c.TickUp();             SHOW(c);
     c.TickUp();             SHOW(c);
     c.TickUp();             SHOW(c);

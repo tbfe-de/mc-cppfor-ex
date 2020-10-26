@@ -4,18 +4,16 @@ To advance to the next step apply the following changes:
   may be operated, eg.:
   * an `HHMMSS_Clock` counting hours, minutes, and seconds (ie.
     as the previous `Clock` did);
-  * a `WeekdayClock` cycling through the days of the week, hours,
-    and minutes;
   * a `Stopwatch` counting microseconds up to 999 and (unlimited)
-    seconds;
-  * an "operating hours meter" counting days (unlimeted), hours
+    seconds.
+  * am "operating hours meter" counting days (unlimeted), hours
     and minutes.
 
-NOTE: The above examples are only mentioned as MOTIVATION why
-      you might want to have such an interface. You may stay with
-      the current (single) clock only. But in that case at least
-      show that you can create a `Clock` object in `main` and hand
-      it over to a function `appl` accepting an `IClock&` argument.
+NOTE: You do not necessarily need to implement another clock but
+      stay with the current (single) clock. But in that case at
+      least show that you can create a `Clock` object in `main`
+      and hand it over to a function `appl` accepting and
+      `IClock&` argument.
 
 * Setup the project to consist of header files and separately
   compiled source filess (= implementation files).

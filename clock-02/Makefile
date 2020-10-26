@@ -2,7 +2,7 @@ all: main run
 	
 run: main
 	./main
-main:
+main: *.cpp *.h
 	g++ -std=c++14 *.cpp -o $@
 clean:
 	-rm -f *.o a.out core main

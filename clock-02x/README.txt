@@ -1,5 +1,5 @@
 Adding an interface to the clock
 ================================
 
-Adding different kinds of clocks and operate them via
-the common interface.
+Still to be done: show how different clocks can be added
+and all of them operated through that single interface.

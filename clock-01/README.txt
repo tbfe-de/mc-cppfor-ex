@@ -9,9 +9,7 @@ PRO-s:
 	straight forward extension
 	still quite easy to understand
 CON-s:
-	no flexibility wrt. the counters used in the clock (eg.
-	if a counter for weekdays should count through an
-	enumeration Monday, Tuesday ... to Sunday)
+	no flexibility wrt. the counters used in the clock
 
 UNRELATED improvements:
 

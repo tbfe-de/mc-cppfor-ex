@@ -7,6 +7,6 @@ main: *.cpp *.h
 clean:
 	-rm -f *.o a.out core main
 zip: clean
-	zip ../clock-2x.zip *.txt *.cpp *.h Makefile
+	zip ../clock-02x.zip *.txt *.cpp *.h Makefile
 .PHONY: all run clean zip
 

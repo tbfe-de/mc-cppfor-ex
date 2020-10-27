@@ -1,4 +1,4 @@
-Simple example for building a clock
+Simple Example For Building a Clock
 ===================================
 
 Everything goes into a single class.

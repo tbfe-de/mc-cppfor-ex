@@ -12,6 +12,6 @@ main: *.cpp *.h
 clean:
 	-rm -f *.o a.out core main
 zip: clean
-	zip ../clock-04.zip *.txt *.cpp *.h
+	zip ../clock-04x.zip *.txt *.cpp *.h
 .PHONY: all run clean zip
 

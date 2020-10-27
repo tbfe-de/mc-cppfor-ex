@@ -27,8 +27,3 @@ Optional:
   *  most of which stay unused in the derived classes.
 
 * What are the Pros and Cons?
-
-    
-
-
-

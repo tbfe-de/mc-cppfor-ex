@@ -1,4 +1,4 @@
-Adding an interface to the clock
+Adding an Interface to the Clock
 ================================
 
 Adding an interface (class) `IClock` makes the design more

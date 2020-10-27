@@ -6,7 +6,7 @@ main: *.cpp *.h
 	g++ -std=c++14 *.cpp -o $@
 clean:
 	-rm -f *.o a.out core main
-zip:
+zip: clean
 	zip ../clock-04.zip *.txt *.cpp *.h Makefile
 .PHONY: all run clean zip
 

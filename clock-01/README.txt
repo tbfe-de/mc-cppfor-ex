@@ -1,5 +1,5 @@
-Example of clock build from a helper class Counter
-==================================================
+Example For a Clock Build From a Helper Class `Counter`
+=======================================================
 
 The overflow algorithm is separated into a class of its own.
 Objects of this class can be chained via pointers. The last

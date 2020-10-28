@@ -20,26 +20,26 @@
 #include "UpDownCounter.h"
 
 void single_counter_constructors() {
-    SHOW_("3", UpDownCounter{3, 5, nullptr}.GetValue());
-    SHOW_("5", UpDownCounter{3, 5, nullptr}.GetLimit());
-//  SHOW_("3", UpDownCounter{3, 5, NULL}.GetValue());
-//  SHOW_("5", UpDownCounter{3, 5, NULL}.GetLimit());
-    SHOW_("3", UpDownCounter{3, 5}.GetValue());
-    SHOW_("5", UpDownCounter{3, 5}.GetLimit());
-    SHOW_("0", UpDownCounter{5, nullptr}.GetValue());
-    SHOW_("5", UpDownCounter{5, nullptr}.GetLimit());
-//  SHOW_("0", UpDownCounter{5, NULL}.GetValue());
-//  SHOW_("5", UpDownCounter{5, NULL}.GetLimit());
-    SHOW_("0", UpDownCounter{5}.GetValue());
-    SHOW_("5", UpDownCounter{5}.GetLimit());
-    SHOW_("0", UpDownCounter{}.GetValue());
-    SHOW_("0", UpDownCounter{}.GetLimit());
+    SHOW_("3", UpDownCounter(3, 5, NULL).GetValue());
+    SHOW_("5", UpDownCounter(3, 5, NULL).GetLimit());
+//  SHOW_("3", UpDownCounter(3, 5, NULL).GetValue());
+//  SHOW_("5", UpDownCounter(3, 5, NULL).GetLimit());
+    SHOW_("3", UpDownCounter(3, 5).GetValue());
+    SHOW_("5", UpDownCounter(3, 5).GetLimit());
+    SHOW_("0", UpDownCounter(5, static_cast<UpDownCounter*>(NULL)).GetValue());
+    SHOW_("5", UpDownCounter(5, static_cast<UpDownCounter*>(NULL)).GetLimit());
+//  SHOW_("0", UpDownCounter(5, NULL).GetValue());
+//  SHOW_("5", UpDownCounter(5, NULL).GetLimit());
+    SHOW_("0", UpDownCounter(5).GetValue());
+    SHOW_("5", UpDownCounter(5).GetLimit());
+    SHOW_("0", UpDownCounter().GetValue());
+    SHOW_("0", UpDownCounter().GetLimit());
 }
 
 void chained_counter_constructors() {
-    UpDownCounter hi{0, 3}; SHOW_("0", hi.GetValue());
+    UpDownCounter hi(0, 3); SHOW_("0", hi.GetValue());
                             SHOW_("3", hi.GetLimit());
-    UpDownCounter lo{&hi};  SHOW_("0", lo.GetValue());
+    UpDownCounter lo(&hi);  SHOW_("0", lo.GetValue());
                             SHOW_("0", lo.GetLimit());
     SHOW_("2",    lo.DownCount(),      hi.GetValue());
     SHOW_("0",    lo.UpCount(),        hi.GetValue());
@@ -52,7 +52,7 @@ void chained_counter_constructors() {
 #include <limits>
 
 void single_counter_setter() {
-    UpDownCounter ud_0_max{};  SHOW_("0", ud_0_max.GetValue());
+    UpDownCounter ud_0_max;    SHOW_("0", ud_0_max.GetValue());
                                SHOW_("0", ud_0_max.GetLimit());
     SHOW_("123",  ud_0_max.SetValue(123), ud_0_max.GetValue());
                                SHOW_("0", ud_0_max.GetLimit());
@@ -60,17 +60,19 @@ void single_counter_setter() {
 
 #include <string>
 
-void single_counter_max_wrap() {
-    const auto max = std::numeric_limits<UpDownCounter::value_type>::max();
-    auto max_init = [](auto m) {
+std::string max_init(int m) {
 	std::ostringstream os;
         os << m;
         return os.str();
-    };
-    const auto almost_max = max_init(max-1);
-    const auto exactly_max = max_init(max+0);
+}
 
-    UpDownCounter ud_0_max{};               SHOW_("0", ud_0_max.GetValue());
+void single_counter_max_wrap() {
+    const int max
+        = std::numeric_limits<UpDownCounter::value_type>::max();
+    const std::string almost_max = max_init(max-1);
+    const std::string exactly_max = max_init(max+0);
+
+    UpDownCounter ud_0_max;                 SHOW_("0", ud_0_max.GetValue());
                                             SHOW_("0", ud_0_max.GetLimit());
     SHOW_(almost_max,        ud_0_max.SetValue(max-1), ud_0_max.GetValue());
     SHOW_(exactly_max,       ud_0_max.UpCount(),       ud_0_max.GetValue());
@@ -82,7 +84,7 @@ void single_counter_max_wrap() {
 }
 
 void single_counter_oflow() {
-    UpDownCounter ud_3_5{3, 5}; SHOW_("3", ud_3_5.GetValue());
+    UpDownCounter ud_3_5(3, 5); SHOW_("3", ud_3_5.GetValue());
                                 SHOW_("5", ud_3_5.GetLimit());
     SHOW_("4", ud_3_5.UpCount(),           ud_3_5.GetValue());
                                 SHOW_("5", ud_3_5.GetLimit());
@@ -99,9 +101,9 @@ void single_counter_oflow() {
 }
 
 void chained_counters_oflow() {
-    UpDownCounter hi{3};        SHOW_("0", hi.GetValue());
+    UpDownCounter hi(3);        SHOW_("0", hi.GetValue());
                                 SHOW_("3", hi.GetLimit());
-    UpDownCounter lo{4, &hi};   SHOW_("0", lo.GetValue());
+    UpDownCounter lo(4, &hi);   SHOW_("0", lo.GetValue());
                                 SHOW_("4", hi.GetLimit());
     SHOW_("1", lo.UpCount(),               lo.GetValue());
                                 SHOW_("0", hi.GetValue());
@@ -131,7 +133,7 @@ void counter_tests() {
 #include "Clock.h"
 
 void clock_tick_tests() {
-    Clock c{"myclock"};
+    Clock c("myclock");
     SHOW_("myclock=0.00:00:00",   c);
     SHOW_("true",                 c.IsFloor());
     SHOW_("myclock=0.00:00:01",   c.TickUp());

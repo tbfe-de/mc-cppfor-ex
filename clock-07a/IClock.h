@@ -5,7 +5,7 @@
 
 class IClock {
 public:
-    virtual ~IClock() =default;
+    virtual ~IClock() {}
     virtual void Print(std::ostream&) const =0;
     virtual bool IsCeiling() const =0;
     virtual bool IsFloor() const =0;

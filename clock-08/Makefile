@@ -10,6 +10,6 @@ unit_tests: *.cpp *.h
 clean:
 		-rm -f *.o a.out core main unit_tests
 zip: clean
-	zip ../clock-07.zip *.txt *.cpp *.h Makefile
-.PHONY: all run clean zip
+	zip ../clock-08.zip *.txt *.cpp *.h Makefile
+.PHONY: all run unit_tests clean zip
 

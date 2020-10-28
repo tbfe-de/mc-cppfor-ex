@@ -3,6 +3,17 @@
 #include <iostream>
 #include <iomanip>
 
+Clock::Clock(Clock &&init) noexcept
+    : name_(init.name_)
+    , days_(init.days_.GetValue(), init.days_.GetLimit())
+    , hours_(init.hours_.GetValue(), init.hours_.GetLimit(), &days_)
+    , minutes_(init.minutes_.GetValue(), init.minutes_.GetLimit(), &hours_)
+    , seconds_(init.seconds_.GetValue(), init.seconds_.GetLimit(), &seconds_)
+{
+    init.name_ = nullptr;
+}
+
+
 bool Clock::IsCeiling() const {
     return (seconds_.GetValue()+1 == 0)
         && (minutes_.GetValue()+1 == 0)

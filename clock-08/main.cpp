@@ -120,12 +120,12 @@ void chained_counters_oflow() {
 }
 
 void counter_tests() {
-    single_counter_constructors();
-    chained_counter_constructors();
-    single_counter_setter();
+//  single_counter_constructors();
+//  chained_counter_constructors();
+//  single_counter_setter();
     single_counter_max_wrap();
-    single_counter_oflow();
-    chained_counters_oflow();
+//  single_counter_oflow();
+//  chained_counters_oflow();
 }
 
 #include "Clock.h"
@@ -160,10 +160,23 @@ void clock_tick_tests() {
     SHOW_("true",                 c.IsFloor());
 }
 
+Clock make_clock() {
+    return Clock{"clk2", 4, 3, 2, 1};
+}
+
+void clock_move_tests() {
+    Clock c{make_clock()};  SHOW_("clk2=4.03:02:01", c);
+    Clock c2{std::move(c)}; SHOW_("clk2=4.03:02:01", c2);
+//  c = make_clock();
+    
+    
+}
+
 int main() {
     std::cout.setf(std::ios::boolalpha);
     counter_tests();
     clock_tick_tests();
+    clock_move_tests();
 }
 
 #else
@@ -182,6 +195,15 @@ int main()
     }
     catch (const char* e) {
         std::clog << "terminated -- reason: " << e << std::endl;
+    }
+    catch (int e) {
+        std::clog << "terminated -- error code: " << e << std::endl;
+    }
+    catch (std::exception &e) {
+        std::clog << "terminated -- uncaught exception: " << e.what() << std::endl;
+    }
+    catch (...) {
+        std::clog << "terminated -- uncaught non-standard exception" << std::endl;
     }
     return EXIT_FAILURE;
 }

@@ -3,13 +3,13 @@ all: main run
 run: main
 	./main
 main: *.cpp *.h
-	g++ -std=c++14 *.cpp -o $@
+	g++ -std=c++98 *.cpp -o $@
 unit_tests: *.cpp *.h
-	g++ -std=c++14 -DUNIT_TESTING *.cpp -o unit_tests
+	g++ -std=c++98 -DUNIT_TESTING *.cpp -o unit_tests
 	@./unit_tests
 clean:
 		-rm -f *.o a.out core main unit_tests
 zip: clean
-	zip ../clock-07.zip *.txt *.cpp *.h Makefile
+	zip ../clock-07a.zip *.txt *.cpp *.h Makefile
 .PHONY: all run clean zip
 

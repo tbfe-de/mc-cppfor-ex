@@ -19,17 +19,15 @@ public:
           UpDownCounter::value_type hours = 0,
           UpDownCounter::value_type minutes = 0,
           UpDownCounter::value_type seconds = 0)
-        : name_{std::strcpy(new char[std::strlen(name)+1], name)}
-        , days_{days, 0, nullptr}
-        , hours_{hours, 24, &days_}
-        , minutes_{minutes, 60, &hours_}
-        , seconds_{seconds, 60, &minutes_}
+        : name_(std::strcpy(new char[std::strlen(name)+1], name))
+        , days_(days, 0, NULL)
+        , hours_(hours, 24, &days_)
+        , minutes_(minutes, 60, &hours_)
+        , seconds_(seconds, 60, &minutes_)
     {}
-    ~Clock() { delete[] name_; }       // REQUIRED to return heap memory
-    Clock(const Clock&) =delete;                // NO copy c'tor
-    Clock& operator=(const Clock&) =delete;     // NO copy assignment
-    Clock(Clock&&) =delete;                     // NO  move c'tor
-    Clock& operator=(Clock&&) =delete;          // NO move assignment
+    ~Clock() { delete[] name_; }    // REQUIRED to return heap memory
+    Clock(const Clock&);            // will NOT be implemented
+    Clock& operator=(const Clock&); // will NOT be implemented
 
     Clock& Days(unsigned v = 0)
         { days_.SetValue(v); return *this; }
@@ -40,12 +38,12 @@ public:
     Clock& Seconds(unsigned v = 0)
         { seconds_.SetValue(v); return *this; }
 
-    virtual void Print(std::ostream&) const override final;
-    virtual bool IsCeiling() const override final;
-    virtual bool IsFloor() const override final;
-    virtual IClock& TickUp() override final
+    virtual void Print(std::ostream&) const;
+    virtual bool IsCeiling() const;
+    virtual bool IsFloor() const;
+    virtual IClock& TickUp()
         { if (!IsCeiling()) seconds_.UpCount(); return *this; }
-    virtual IClock& TickDown() override final
+    virtual IClock& TickDown()
         { if (!IsFloor()) seconds_.DownCount(); return *this; }
 };
 

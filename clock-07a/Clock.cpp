@@ -17,9 +17,9 @@ bool Clock::IsFloor() const {
 }
 
 void Clock::Print(std::ostream& s) const {
-    std::ostream os{s.rdbuf()};
+    std::ostream os(s.rdbuf());
     os.fill('0');
-    auto name = name_ ? name_ : "?dead?";
+    const char* name = name_ ? name_ : "?dead?";
     os << name << '=' << days_.GetValue() << '.'
        << std::setw(2) << hours_.GetValue() << ':'
        << std::setw(2) << minutes_.GetValue() << ':'

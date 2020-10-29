@@ -1,5 +1,6 @@
 #include "Clock.h"
 
+#include <cassert>
 #include <iostream>
 #include <iomanip>
 
@@ -13,6 +14,22 @@ Clock::Clock(Clock &&init) noexcept
     init.name_ = nullptr;
 }
 
+Clock& Clock::operator=(Clock &&rhs) noexcept {
+    assert(days_.GetLimit() == rhs.days_.GetLimit());
+    assert(hours_.GetLimit() == rhs.hours_.GetLimit());
+    assert(minutes_.GetLimit() == rhs.minutes_.GetLimit());
+    assert(seconds_.GetLimit() == rhs.seconds_.GetLimit());
+    if (this != &rhs) {
+	delete[] name_;
+        name_ = rhs.name_;
+        rhs.name_ = nullptr;
+        days_.SetValue(rhs.days_.GetValue());
+        hours_.SetValue(rhs.hours_.GetValue());
+        minutes_.SetValue(rhs.minutes_.GetValue());
+        seconds_.SetValue(rhs.seconds_.GetValue());
+    }
+    return *this;
+}
 
 bool Clock::IsCeiling() const {
     return (seconds_.GetValue()+1 == 0)

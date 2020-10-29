@@ -25,11 +25,11 @@ public:
         , minutes_{minutes, 60, &hours_}
         , seconds_{seconds, 60, &minutes_}
     {}
-    ~Clock() { delete[] name_; }       // REQUIRED to return heap memory
-    Clock(const Clock&) =delete;                // NO copy c'tor
-    Clock& operator=(const Clock&) =delete;     // NO copy assignment
-    Clock(Clock&&) =delete;                     // NO  move c'tor
-    Clock& operator=(Clock&&) =delete;          // NO move assignment
+    ~Clock() { delete[] name_; }      // REQUIRED to return heap memory
+    Clock(const Clock&) =delete;                  // NO copy c'tor
+    Clock& operator=(const Clock&) =delete;       // NO copy assignment
+    Clock(Clock&&) =delete;                       // NO  move c'tor
+    Clock& operator=(Clock&&) =delete;            // NO move assignment
 
     Clock& Days(unsigned v = 0)
         { days_.SetValue(v); return *this; }

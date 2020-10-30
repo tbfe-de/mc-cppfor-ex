@@ -3,29 +3,36 @@
 
 #include <cstring>
 #include <iosfwd>
+#include <memory>
+#include <utility>
 
 #include "IClock.h"
 #include "UpDownCounter.h"
 
 class Clock : public IClock {
-    const char* name_;
+    std::unique_ptr<char[]> name_;
     UpDownCounter days_;
     UpDownCounter hours_;
     UpDownCounter minutes_;
     UpDownCounter seconds_;
+    static auto strdup_to_unique_ptr(const char *s) {
+	auto r = std::make_unique<char[]>(std::strlen(s)+1);
+    	std::strcpy(r.get(), s);
+        return r;
+    }
 public:
     Clock(const char* name,
           UpDownCounter::value_type days = 0,
           UpDownCounter::value_type hours = 0,
           UpDownCounter::value_type minutes = 0,
           UpDownCounter::value_type seconds = 0)
-        : name_{std::strcpy(new char[std::strlen(name)+1], name)}
+        : name_{strdup_to_unique_ptr(name)}
         , days_{days, 0, nullptr}
         , hours_{hours, 24, &days_}
         , minutes_{minutes, 60, &hours_}
         , seconds_{seconds, 60, &minutes_}
     {}
-    ~Clock() { delete[] name_; }   // REQUIRED to return heap memory
+    ~Clock() =default;
     Clock(const Clock&) =delete;                  // NO copy c'tor
     Clock& operator=(const Clock&) =delete;       // NO copy assignment
     Clock(Clock&&) noexcept;            // user-defined move c'tor

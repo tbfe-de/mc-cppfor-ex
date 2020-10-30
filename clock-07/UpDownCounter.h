@@ -40,8 +40,8 @@ public:
     {} 
 
     void SetValue(value_type value) { value_ = value; }
-    int GetValue() const { return value_; }
-    int GetLimit() const { return max_value_; }
+    value_type GetValue() const { return value_; }
+    value_type GetLimit() const { return max_value_; }
     void UpCount();
     void DownCount();
 };

@@ -5,7 +5,7 @@
 #include <iomanip>
 
 Clock::Clock(Clock &&init) noexcept
-    : name_{init.name_}
+    : name_{std::move(init.name_)}
     , days_{init.days_.GetValue(), init.days_.GetLimit()}
     , hours_{init.hours_.GetValue(), init.hours_.GetLimit(), &days_}
     , minutes_{init.minutes_.GetValue(), init.minutes_.GetLimit(), &hours_}
@@ -20,15 +20,11 @@ Clock& Clock::operator=(Clock &&rhs) noexcept {
     assert(minutes_.GetLimit() == rhs.minutes_.GetLimit());
     assert(seconds_.GetLimit() == rhs.seconds_.GetLimit());
 //  - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    if (this != &rhs) {
-        delete[] name_;
-        name_ = rhs.name_;
-        rhs.name_ = nullptr;
-        days_.SetValue(rhs.days_.GetValue());
-        hours_.SetValue(rhs.hours_.GetValue());
-        minutes_.SetValue(rhs.minutes_.GetValue());
-        seconds_.SetValue(rhs.seconds_.GetValue());
-    }
+    name_ = std::move(rhs.name_);
+    days_.SetValue(rhs.days_.GetValue());
+    hours_.SetValue(rhs.hours_.GetValue());
+    minutes_.SetValue(rhs.minutes_.GetValue());
+    seconds_.SetValue(rhs.seconds_.GetValue());
     return *this;
 }
 
@@ -49,7 +45,7 @@ void Clock::Print(std::ostream& s) const {
     std::ostream os{s.rdbuf()};
     os.fill('0');
     using ULL = unsigned long long;
-    const auto name = name_ ? name_ : "?dead?";
+    const auto name = name_.get() ? name_.get() : "?dead?";
     os << name << '=' << ULL{days_.GetValue()} << '.'
        << std::setw(2) << ULL{hours_.GetValue()} << ':'
        << std::setw(2) << ULL{minutes_.GetValue()} << ':'

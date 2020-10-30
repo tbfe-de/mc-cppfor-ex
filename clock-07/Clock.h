@@ -28,7 +28,7 @@ public:
     ~Clock() { delete[] name_; }      // REQUIRED to return heap memory
     Clock(const Clock&) =delete;                  // NO copy c'tor
     Clock& operator=(const Clock&) =delete;       // NO copy assignment
-    Clock(Clock&&) =delete;                       // NO  move c'tor
+    Clock(Clock&&) =delete;                       // NO move c'tor
     Clock& operator=(Clock&&) =delete;            // NO move assignment
 
     Clock& Days(unsigned v = 0)

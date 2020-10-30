@@ -235,10 +235,60 @@ void clock_tests() {
     clock_move_tests();
 }
 
+#include "ClockWork.h"
+
+void clockwork_basic_test() {
+    std::ostringstream os;
+    ClockWork cw;
+
+    SHOW_("", cw.tick(), os.str());
+
+    auto r1 = cw.subscribe([&os] { os << 'A'; });
+    SHOW_("A", cw.tick(), os.str());
+
+    cw.unsubscribe(r1);
+    SHOW_("A", cw.tick(), os.str());
+}
+
+void clockwork_multiple_subscribers_test() {
+    std::ostringstream os;
+    ClockWork cw;
+
+    // !!!
+    // TBD: Test adding multiple subscribers
+    // !!!
+}
+
+void clockwork_subscriber_removal_test() {
+    std::ostringstream os;
+    ClockWork cw;
+
+    // !!!
+    // TBD: Test removing subscribers
+    // !!!
+}
+
+void clockwork_different_callables_test() {
+    std::ostringstream os;
+    ClockWork cw;
+
+    // !!!
+    // TBD: Test adding multiple subscribers
+    // !!!
+}
+
+void clockwork_tests() {
+    clockwork_basic_test();
+    clockwork_multiple_subscribers_test();
+    clockwork_subscriber_removal_test();
+    clockwork_different_callables_test();
+}
+
 int main() {
     std::cout.setf(std::ios::boolalpha);
     counter_tests();
     clock_tests();
+    clockwork_tests();
     SHOW_TEST_SUMMARY();
 }
 

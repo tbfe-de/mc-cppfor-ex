@@ -20,29 +20,31 @@
 #include "UpDownCounter.h"
 
 void single_counter_constructors() {
-    SHOW_("3", UpDownCounter{3, 5, nullptr}.GetValue());
-    SHOW_("5", UpDownCounter{3, 5, nullptr}.GetLimit());
-//  SHOW_("3", UpDownCounter{3, 5, NULL}.GetValue());
-//  SHOW_("5", UpDownCounter{3, 5, NULL}.GetLimit());
-    SHOW_("3", UpDownCounter{3, 5}.GetValue());
-    SHOW_("5", UpDownCounter{3, 5}.GetLimit());
-    SHOW_("0", UpDownCounter{5, nullptr}.GetValue());
-    SHOW_("5", UpDownCounter{5, nullptr}.GetLimit());
-//  SHOW_("0", UpDownCounter{5, NULL}.GetValue());
-//  SHOW_("5", UpDownCounter{5, NULL}.GetLimit());
-    SHOW_("0", UpDownCounter{5}.GetValue());
-    SHOW_("5", UpDownCounter{5}.GetLimit());
-    SHOW_("0", UpDownCounter{}.GetValue());
-    SHOW_("0", UpDownCounter{}.GetLimit());
+    using ULL = unsigned long long;
+    SHOW_("3", ULL{UpDownCounter{3, 5, nullptr}.GetValue()});
+    SHOW_("5", ULL{UpDownCounter{3, 5, nullptr}.GetLimit()});
+//  SHOW_("3", ULL{UpDownCounter{3, 5, NULL}.GetValue()});
+//  SHOW_("5", ULL{UpDownCounter{3, 5, NULL}.GetLimit()});
+    SHOW_("3", ULL{UpDownCounter{3, 5}.GetValue()});
+    SHOW_("5", ULL{UpDownCounter{3, 5}.GetLimit()});
+    SHOW_("0", ULL{UpDownCounter{5, nullptr}.GetValue()});
+    SHOW_("5", ULL{UpDownCounter{5, nullptr}.GetLimit()});
+//  SHOW_("0", ULL{UpDownCounter{5, NULL}.GetValue()});
+//  SHOW_("5", ULL{UpDownCounter{5, NULL}.GetLimit()});
+    SHOW_("0", ULL{UpDownCounter{5}.GetValue()});
+    SHOW_("5", ULL{UpDownCounter{5}.GetLimit()});
+    SHOW_("0", ULL{UpDownCounter{}.GetValue()});
+    SHOW_("0", ULL{UpDownCounter{}.GetLimit()});
 }
 
 void chained_counter_constructors() {
-    UpDownCounter hi{0, 3}; SHOW_("0", hi.GetValue());
-                            SHOW_("3", hi.GetLimit());
-    UpDownCounter lo{&hi};  SHOW_("0", lo.GetValue());
-                            SHOW_("0", lo.GetLimit());
-    SHOW_("2",    lo.DownCount(),      hi.GetValue());
-    SHOW_("0",    lo.UpCount(),        hi.GetValue());
+    using ULL = unsigned long long;
+    UpDownCounter hi{0, 3}; SHOW_("0", ULL{hi.GetValue()});
+                            SHOW_("3", ULL{hi.GetLimit()});
+    UpDownCounter lo{&hi};  SHOW_("0", ULL{lo.GetValue()});
+                            SHOW_("0", ULL{lo.GetLimit()});
+    SHOW_("2", lo.DownCount(),         ULL{hi.GetValue()});
+    SHOW_("0", lo.UpCount(),           ULL{hi.GetValue()});
 
     // !!!
     // TBD: Test other combinations with chained counters
@@ -52,10 +54,11 @@ void chained_counter_constructors() {
 #include <limits>
 
 void single_counter_setter() {
-    UpDownCounter ud_0_max{};  SHOW_("0", ud_0_max.GetValue());
-                               SHOW_("0", ud_0_max.GetLimit());
-    SHOW_("123",  ud_0_max.SetValue(123), ud_0_max.GetValue());
-                               SHOW_("0", ud_0_max.GetLimit());
+    using ULL = unsigned long long;
+    UpDownCounter ud_0_max{};  SHOW_("0", ULL{ud_0_max.GetValue()});
+                               SHOW_("0", ULL{ud_0_max.GetLimit()});
+    SHOW_("123",  ud_0_max.SetValue(123), ULL{ud_0_max.GetValue()});
+                               SHOW_("0", ULL{ud_0_max.GetLimit()});
 }
 
 #include <string>
@@ -70,53 +73,56 @@ void single_counter_max_wrap() {
     const auto almost_max = max_init(max-1);
     const auto exactly_max = max_init(max+0);
 
-    UpDownCounter ud_0_max{};               SHOW_("0", ud_0_max.GetValue());
-                                            SHOW_("0", ud_0_max.GetLimit());
-    SHOW_(almost_max,        ud_0_max.SetValue(max-1), ud_0_max.GetValue());
-    SHOW_(exactly_max,       ud_0_max.UpCount(),       ud_0_max.GetValue());
-    SHOW_("0",               ud_0_max.UpCount(),       ud_0_max.GetValue());
-    SHOW_("1",               ud_0_max.UpCount(),       ud_0_max.GetValue());
-    SHOW_("0",               ud_0_max.DownCount(),     ud_0_max.GetValue());
-    SHOW_(exactly_max,       ud_0_max.DownCount(),     ud_0_max.GetValue());
-    SHOW_(almost_max,        ud_0_max.DownCount(),     ud_0_max.GetValue());
+    using ULL = unsigned long long;
+    UpDownCounter ud_0_max{};         SHOW_("0", ULL{ud_0_max.GetValue()});
+                                      SHOW_("0", ULL{ud_0_max.GetLimit()});
+    SHOW_(almost_max,  ud_0_max.SetValue(max-1), ULL{ud_0_max.GetValue()});
+    SHOW_(exactly_max, ud_0_max.UpCount(),       ULL{ud_0_max.GetValue()});
+    SHOW_("0",         ud_0_max.UpCount(),       ULL{ud_0_max.GetValue()});
+    SHOW_("1",         ud_0_max.UpCount(),       ULL{ud_0_max.GetValue()});
+    SHOW_("0",         ud_0_max.DownCount(),     ULL{ud_0_max.GetValue()});
+    SHOW_(exactly_max, ud_0_max.DownCount(),     ULL{ud_0_max.GetValue()});
+    SHOW_(almost_max,  ud_0_max.DownCount(),     ULL{ud_0_max.GetValue()});
 }
 
 void single_counter_oflow() {
-    UpDownCounter ud_3_5{3, 5}; SHOW_("3", ud_3_5.GetValue());
-                                SHOW_("5", ud_3_5.GetLimit());
-    SHOW_("4", ud_3_5.UpCount(),           ud_3_5.GetValue());
-                                SHOW_("5", ud_3_5.GetLimit());
-    SHOW_("0", ud_3_5.UpCount(),           ud_3_5.GetValue());
-                                SHOW_("5", ud_3_5.GetLimit());
-    SHOW_("1", ud_3_5.UpCount(),           ud_3_5.GetValue());
-                                SHOW_("5", ud_3_5.GetLimit());
-    SHOW_("0", ud_3_5.DownCount(),         ud_3_5.GetValue());
-                                SHOW_("5", ud_3_5.GetLimit());
-    SHOW_("4", ud_3_5.DownCount(),         ud_3_5.GetValue());
-                                SHOW_("5", ud_3_5.GetLimit());
-    SHOW_("3", ud_3_5.DownCount(),         ud_3_5.GetValue());
-                                SHOW_("5", ud_3_5.GetLimit());
+    using ULL = unsigned long long;
+    UpDownCounter ud_3_5{3, 5}; SHOW_("3", ULL{ud_3_5.GetValue()});
+                                SHOW_("5", ULL{ud_3_5.GetLimit()});
+    SHOW_("4", ud_3_5.UpCount(),           ULL{ud_3_5.GetValue()});
+                                SHOW_("5", ULL{ud_3_5.GetLimit()});
+    SHOW_("0", ud_3_5.UpCount(),           ULL{ud_3_5.GetValue()});
+                                SHOW_("5", ULL{ud_3_5.GetLimit()});
+    SHOW_("1", ud_3_5.UpCount(),           ULL{ud_3_5.GetValue()});
+                                SHOW_("5", ULL{ud_3_5.GetLimit()});
+    SHOW_("0", ud_3_5.DownCount(),         ULL{ud_3_5.GetValue()});
+                                SHOW_("5", ULL{ud_3_5.GetLimit()});
+    SHOW_("4", ud_3_5.DownCount(),         ULL{ud_3_5.GetValue()});
+                                SHOW_("5", ULL{ud_3_5.GetLimit()});
+    SHOW_("3", ud_3_5.DownCount(),         ULL{ud_3_5.GetValue()});
+                                SHOW_("5", ULL{ud_3_5.GetLimit()});
 }
 
 void chained_counters_oflow() {
-    UpDownCounter hi{3};        SHOW_("0", hi.GetValue());
-                                SHOW_("3", hi.GetLimit());
-    UpDownCounter lo{4, &hi};   SHOW_("0", lo.GetValue());
-                                SHOW_("4", hi.GetLimit());
-    SHOW_("1", lo.UpCount(),               lo.GetValue());
-                                SHOW_("0", hi.GetValue());
-    SHOW_("2", lo.UpCount(),               lo.GetValue());
-                                SHOW_("0", hi.GetValue());
-    SHOW_("3", lo.UpCount(),               lo.GetValue());
-                                SHOW_("0", hi.GetValue());
-    SHOW_("0", lo.UpCount(),               lo.GetValue());
-                                SHOW_("1", hi.GetValue());
-    SHOW_("1", lo.UpCount(),               lo.GetValue());
-                                SHOW_("1", hi.GetValue());
-    SHOW_("0", lo.DownCount(),             lo.GetValue());
-                                SHOW_("1", hi.GetValue());
-    SHOW_("3", lo.DownCount(),             lo.GetValue());
-                                SHOW_("0", hi.GetValue());
+    using ULL = unsigned long long;
+    UpDownCounter hi{3};      SHOW_("0", ULL{hi.GetValue()});
+                              SHOW_("3", ULL{hi.GetLimit()});
+    UpDownCounter lo{4, &hi}; SHOW_("0", ULL{lo.GetValue()});
+                              SHOW_("4", ULL{hi.GetLimit()});
+    SHOW_("1", lo.UpCount(),             ULL{lo.GetValue()});
+                              SHOW_("0", ULL{hi.GetValue()});
+    SHOW_("2", lo.UpCount(),             ULL{lo.GetValue()});
+                              SHOW_("0", ULL{hi.GetValue()});
+    SHOW_("3", lo.UpCount(),             ULL{lo.GetValue()});
+                              SHOW_("0", ULL{hi.GetValue()});
+    SHOW_("0", lo.UpCount(),             ULL{lo.GetValue()});
+                              SHOW_("1", ULL{hi.GetValue()});
+    SHOW_("1", lo.UpCount(),             ULL{lo.GetValue()});
+                              SHOW_("1", ULL{hi.GetValue()});
+    SHOW_("0", lo.DownCount(),           ULL{lo.GetValue()});
+                              SHOW_("1", ULL{hi.GetValue()});
+    SHOW_("3", lo.DownCount(),           ULL{lo.GetValue()});
+                              SHOW_("0", ULL{hi.GetValue()});
 }
 
 void counter_tests() {
@@ -131,6 +137,7 @@ void counter_tests() {
 #include "Clock.h"
 
 void clock_tick_tests() {
+    using ULL = unsigned long long;
     Clock c{"myclock"};
     SHOW_("myclock=0.00:00:00",   c);
     SHOW_("true",                 c.IsFloor());
@@ -158,6 +165,10 @@ void clock_tick_tests() {
     SHOW_("false",                c.IsFloor());
     SHOW_("myclock=0.00:00:00",   c.Days());
     SHOW_("true",                 c.IsFloor());
+
+    // !!!
+    // TBD: Add some tests for `isCeil`
+    // !!!
 }
 
 int main() {

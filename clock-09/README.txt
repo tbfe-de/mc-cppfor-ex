@@ -1,4 +1,4 @@
-(Headline TBD)
---------------
+Using std::unique_ptr` for Storing the `name_` in `Clock`
+---------------------------------------------------------
 
-Implemented the TODO-s of the previous step.
+(As described of in the `TODO`-s of the previous step.)

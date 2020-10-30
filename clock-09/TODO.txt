@@ -20,8 +20,9 @@ Before you go understand these pitfalls and how to solve them:
 Building on the standard algorithm `std::is_permutation` this
 could be tested with the following helper function:
 
+    #include <algorithm>
     bool check_permutation_of(const std::string s1,
-                              std::ostream& os) {
+                              std::ostringstream& os) {
         const auto s2 = os.str();
         return std::is_permutation(s1.cbegin(), s1.cend(),
                                    s2.cbegin(), s2.cend());

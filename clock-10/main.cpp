@@ -382,6 +382,7 @@ int main()
         std::clog << "terminated -- reason: " << e << std::endl;
     }
     catch (int e) {
+        if (e == 0) return EXIT_SUCCESS;
         std::clog << "terminated -- error code: " << e << std::endl;
     }
     catch (std::exception &e) {

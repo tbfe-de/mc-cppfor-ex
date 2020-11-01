@@ -1,7 +1,12 @@
 #ifdef UNIT_TESTING
 
+#include <algorithm>
+#include <functional>
+#include <initializer_list>
 #include <iostream>
+#include <limits>
 #include <sstream>
+#include <string>
 
 int SHOW_tests{0};
 int SHOW_failed{0};
@@ -25,7 +30,6 @@ int SHOW_failed{0};
             : std::cout << "!!! " << SHOW_failed << " of "\
                                   << SHOW_tests << " tests FAILED" << std::endl))
     
-
 #include "UpDownCounter.h"
 
 void single_counter_constructors() {
@@ -60,8 +64,6 @@ void chained_counter_constructors() {
     // !!!
 }
 
-#include <limits>
-
 void single_counter_setter() {
     using ULL = unsigned long long;
     UpDownCounter ud_0_max{};  SHOW_("0", ULL{ud_0_max.GetValue()});
@@ -69,8 +71,6 @@ void single_counter_setter() {
     SHOW_("123",  ud_0_max.SetValue(123), ULL{ud_0_max.GetValue()});
                                SHOW_("0", ULL{ud_0_max.GetLimit()});
 }
-
-#include <string>
 
 void single_counter_max_wrap() {
     const auto max = std::numeric_limits<UpDownCounter::value_type>::max();
@@ -209,8 +209,6 @@ void clock_tick_tests() {
     SHOW_("true",                 c.IsFloor());
 }
 
-#include <initializer_list>
-
 Clock make_clock(const std::initializer_list<int>& init) {
     auto init_it = init.begin();
     auto save_sequential_assign_from = [&init_it](auto li) {
@@ -250,8 +248,6 @@ void clockwork_basic_test() {
     cw.unsubscribe(r1);
     SHOW_("A", cw.tick(), os.str());
 }
-
-#include <algorithm>
 
 bool check_permutation_of(const std::string s1,
                           std::ostringstream& os) {
@@ -328,8 +324,6 @@ public:
     void operator()() { os_ << CH; }
 };
 
-#include <functional>
-
 void clockwork_different_callables_test() {
     std::ostringstream os;
     ClockWork cw;
@@ -356,11 +350,54 @@ void clockwork_tests() {
     clockwork_different_callables_test();
 }
 
+namespace UI {
+	extern void normalize_ws(std::string&);
+}
+
+void ui_util_tests() {
+    std::string s;
+    SHOW_("no-white-space", UI::normalize_ws(s = "no-white-space"), s);
+
+    SHOW_("left-space",        UI::normalize_ws(s = " left-space"), s);
+    SHOW_("left-spaces",       UI::normalize_ws(s = "  left-spaces"), s);
+    SHOW_("left-tab",          UI::normalize_ws(s = "\tleft-tab"), s);
+    SHOW_("left-tabs",         UI::normalize_ws(s = "\t\tleft-tabs"), s);
+    SHOW_("left-mixed",        UI::normalize_ws(s = " \tleft-mixed"), s);
+    SHOW_("left-mixed",        UI::normalize_ws(s = "\t left-mixed"), s);
+    SHOW_("left-mixed",        UI::normalize_ws(s = " \t left-mixed"), s);
+    SHOW_("left-mixed",        UI::normalize_ws(s = "\t \tleft-mixed"), s);
+
+    SHOW_("right-space",       UI::normalize_ws(s = "right-space "), s);
+    SHOW_("right-spaces",      UI::normalize_ws(s = "right-spaces "), s);
+    SHOW_("right-tab",         UI::normalize_ws(s = "right-tab\t"), s);
+    SHOW_("right-tabs",        UI::normalize_ws(s = "right-tabs\t\t"), s);
+    SHOW_("right-mixed",       UI::normalize_ws(s = "right-mixed \t"), s);
+    SHOW_("right-mixed",       UI::normalize_ws(s = "right-mixed\t "), s);
+    SHOW_("right-mixed",       UI::normalize_ws(s = "right-mixed \t "), s);
+    SHOW_("right-mixed",       UI::normalize_ws(s = "right-mixed\t \t"), s);
+
+    SHOW_("middle space",      UI::normalize_ws(s = "middle space"), s);
+    SHOW_("middle spaces",     UI::normalize_ws(s = "middle  spaces"), s);
+    SHOW_("middle tab",        UI::normalize_ws(s = "middle\ttab"), s);
+    SHOW_("middle mixed",      UI::normalize_ws(s = "middle \tmixed"), s);
+    SHOW_("middle mixed",      UI::normalize_ws(s = "middle\t mixed"), s);
+    SHOW_("middle mixed",      UI::normalize_ws(s = "middle \t mixed"), s);
+    SHOW_("middle mixed",      UI::normalize_ws(s = "middle\t \tmixed"), s);
+
+    SHOW_("left middle right", UI::normalize_ws(s = "left middle right"), s);
+    SHOW_("left middle right", UI::normalize_ws(s = "left  middle  right"), s);
+    SHOW_("left middle right", UI::normalize_ws(s = " left  middle  right "), s);
+    SHOW_("left middle right", UI::normalize_ws(s = "\t left \t middle right \t"), s);
+    SHOW_("left middle right", UI::normalize_ws(s = "\t left middle \t right \t"), s);
+    SHOW_("left middle right", UI::normalize_ws(s = "\t left \t middle \t right \t"), s);
+}
+
 int main() {
-    std::cout.setf(std::ios::boolalpha);
-    counter_tests();
-    clock_tests();
-    clockwork_tests();
+//  std::cout.setf(std::ios::boolalpha);
+//  counter_tests();
+//  clock_tests();
+//  clockwork_tests();
+    ui_util_tests();
     SHOW_TEST_SUMMARY();
 }
 

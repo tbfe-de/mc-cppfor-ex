@@ -5,13 +5,19 @@
 #include <iomanip>
 #include <regex>
 #include <string>
+#include <tuple>
 
 namespace UI { ////////////////////////////////////////////////////////////////
+
+using CommandParams = std::smatch;
+using CommandResult = std::tuple<bool, std::string>;
+using CommandFunc = std::function<CommandResult(CommandParams)>;
+using CommandExec = std::tuple<bool, CommandFunc>;
 
 struct CommandMenu {
     std::string description;
     std::string syntax_regex;
-    std::function<void(const std::smatch&)> execute;
+    CommandFunc execute;
 };
 
 using MenuControl = std::initializer_list<CommandMenu>;
@@ -36,36 +42,50 @@ void debug_match_args(const std::smatch& m) {
     }
 }
 
-void main_loop(std::istream& in, std::ostream& out, const MenuControl& menu) {
-    auto show_help = [&] {
+void main_loop(std::istream& in, std::ostream& out, std::ostream& dbg_out,
+               const MenuControl& menu) {
+    auto show_help = [&menu, &out] {
         out << "--- Available Commands:\n";
         for (const auto& e : menu) {
 	    out << "  : " << e.description << std::endl;
         }
     };
-    auto parse_line = [&](const std::string cmd) {
+    
+    std::string cmd_line;
+    CommandFunc cmd_func;
+    CommandParams cmd_params;
+    auto parse_line = [&menu, &cmd_line, &cmd_func, &cmd_params, &out, &dbg_out] {
         for (const auto& e : menu) {
 	    std::regex re{e.syntax_regex};
-	    std::smatch m;
-	    if (!std::regex_match(cmd, m, re)) continue;
-	    out << "OK: " << e.description << std::endl;
-            if (e.execute) {
-                e.execute(m);
+	    if (std::regex_match(cmd_line, cmd_params, re)) {
+                cmd_func = e.execute;
+	        dbg_out << "OK: " << e.description << std::endl;
+                return true;
             }
-            else {
-                out << "!!!! not yet implemented" << std::endl;
-            }
-            return true;
         }
         return false;
     };
 
     show_help();
-    std::string cmd;
     while (out << "==> " << std::flush,
-       std::getline(in, cmd)) {
-        normalize_ws(cmd);
-        if (!parse_line(cmd)) show_help();
+        std::getline(in, cmd_line)) {
+        normalize_ws(cmd_line);
+        if (parse_line()) {
+            if (cmd_func) {
+             // -------------====================---
+                auto result{ cmd_func(cmd_params) };
+             // -------------====================---
+                const auto success{ std::get<bool>(result) };
+                const auto& message{ std::get<std::string>(result) };
+                const auto label{ success ? "OK:" : "???"};
+                out << label << ' ' << message << std::endl; }
+            else {
+                out << "!!! not yet implemented !!!" << std::endl;
+            }
+        }
+        else {
+            show_help();
+        }
     }
 }
 
@@ -75,34 +95,30 @@ void appl() {
     UI::MenuControl m = {
        { //-----------------------------------------------------------
            "create <timer> ?days? ?hours? ?minutes? ?seconds?",
-           R"((:??create|c) ([a-z]+) (\d+) (\d+) (\d+) (\d+))",
+           R"((?:create|c) ([a-z]+) (\d+) (\d+) (\d+) (\d+))",
        },
        { //-----------------------------------------------------------
            "start <timer>",
-           R"((:??start|s) ([a-z]+) ([a-z]+))",
+           R"((?:start|s) ([a-z]+))",
        },
        { //-----------------------------------------------------------
            "pause <timer>",
-           R"((:??pause|p) ([a-z]+) ([a-z]+))",
+           R"((?:pause|p) ([a-z]+))",
        },
        { //-----------------------------------------------------------
            "resume <timer>",
-           R"((:??resume|r) ([a-z]+) ([a-z]+))",
+           R"((?:resume|r) ([a-z]+))",
        },
        { //-----------------------------------------------------------
            "delete <timer>",
-           R"((:??delete|d) ([a-z]+) ([a-z]+))",
-       },
-       { //-----------------------------------------------------------
-           "timers",
-           R"((:??timers|t))",
+           R"((?:delete|d) ([a-z]+))",
        },
        { //-----------------------------------------------------------
            "quit",
            R"(quit|q)",
-          [](auto) { throw 0; }
+          [](auto) -> UI::CommandResult { throw 0; }
        },
     };
 
-    UI::main_loop(std::cin, std::cout, m);
+    UI::main_loop(std::cin, std::cout, std::clog, m);
 }

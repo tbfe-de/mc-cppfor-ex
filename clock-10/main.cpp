@@ -268,7 +268,7 @@ void clockwork_multiple_subscribers_test() {
     cw.subscribe([&os] { os << 'B'; });
     cw.subscribe([&os] { os << 'C'; });
     cw.tick();
-//  SHOW_("ABC", os.str());
+    SHOW_("ABC", os.str());
     SHOW_("true", check_permutation_of("ABC", os));
 }
 
@@ -394,5 +394,3 @@ int main()
     return EXIT_FAILURE;
 }
 #endif
-
-

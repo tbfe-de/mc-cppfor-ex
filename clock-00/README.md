@@ -1,4 +1,4 @@
-# Simple Example For Building a Clock
+# A Simple Example For Building a Clock
 
 Everything goes into a single class.
 
@@ -10,7 +10,7 @@ Overflow behavior is hard-coded within nested conditionals.
     - easily understood
 
 - CON-s:
-    - no re-usable components from which the clock is built
+    - no reusable components from which the clock is built
     - so the best approach to build similar but not quite
     - identical clocks is
       - (a) copy & paste all of Clock source code

@@ -30,4 +30,4 @@ public:
     friend std::ostream& operator<<(std::ostream&, const Clock&);
 };
 
-#endif
+#endif // CLOCK_H

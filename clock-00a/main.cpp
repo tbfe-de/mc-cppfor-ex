@@ -2,8 +2,7 @@
 
 #include <iostream>
 
-int main()
-{
+int main() {
     Clock c;                std::cout << c << std::endl;
     c.TickUp();             std::cout << c << std::endl;
     c.TickUp();             std::cout << c << std::endl;

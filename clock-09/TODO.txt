@@ -1,6 +1,6 @@
 To advance to the next step apply the following changes:
 
-Review the class `ClockWork` and implement more intesive testing.
+Review the class `ClockWork` and implement more intensive testing.
 (Some TBD-s have already been prepared in `main.cpp`.)
 
 Before you go understand these pitfalls and how to solve them:

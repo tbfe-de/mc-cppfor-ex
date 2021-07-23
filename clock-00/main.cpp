@@ -2,8 +2,7 @@
 
 #include <iostream>
 
-int main()
-{
+int main() {
     Clock c{};              std::cout << c << std::endl;
     c.TickUp();             std::cout << c << std::endl;
     c.TickUp();             std::cout << c << std::endl;
@@ -12,7 +11,7 @@ int main()
     c.TickUp();             std::cout << c << std::endl;
     c.TickUp();             std::cout << c << std::endl;
     c.TickUp();             std::cout << c << std::endl;
-    c.Set(0, 58, 37);	    std::cout << c << std::endl;	
+    c.Set(0, 58, 37);       std::cout << c << std::endl;	
     c.TickUp(60);           std::cout << c << std::endl;
     c.TickUp(100);          std::cout << c << std::endl;
     

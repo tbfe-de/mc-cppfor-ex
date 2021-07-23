@@ -14,12 +14,12 @@ public:
     using CallBackFunction = std::function<void()>;
     using CallBackRegistry = std::unordered_map<CallBackID, CallBackFunction>;
 private:
-    CallBackRegistry subscribers;
+    CallBackRegistry subscribers_;
     static ID_Generator rand_id;
     auto next_unused_id() {
         CallBackID result{};
         do result = rand_id();
-        while (subscribers.count(result) > 0);
+        while (subscribers_.count(result) > 0);
         return result;
     }
 public:
@@ -31,11 +31,11 @@ public:
     ~ClockWork()                          =default;
     CallBackID subscribe(CallBackFunction cf) {
         const auto id = next_unused_id();
-        subscribers.emplace(id, cf);
+        subscribers_.emplace(id, cf);
         return id;
     }
     void unsubscribe(CallBackID id) {
-        subscribers.erase(id);
+        subscribers_.erase(id);
     }
     void tick();
     void run(unsigned long long);

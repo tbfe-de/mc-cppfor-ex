@@ -15,7 +15,7 @@ Adding an Interface `ICounter` (Version 2)
 |                |    |                 |
 +----------------+    +-----------------+
 
-The imnterface ICounter` is implemented by `LimitCounter`, which
+The interface ICounter` is implemented by `LimitCounter`, which
 subsequently defines the extension points and is USED AS PART of
 `OverflowCounter` (= Composition), which fills the extension
 points to implement the added behavior.

@@ -19,7 +19,7 @@ void main_command_loop(std::istream& in, std::ostream& out, const MenuControl& m
     auto show_help = [&] {
         out << "--- Available Commands:\n";
         for (const auto& e : menu) {
-	    out << "==> " << e.description << std::endl;
+	        out << "==> " << e.description << std::endl;
         }
     };
     auto parse_line = [&](const std::string cmd) {

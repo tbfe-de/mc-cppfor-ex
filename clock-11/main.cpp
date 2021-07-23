@@ -223,9 +223,18 @@ Clock make_clock(const std::initializer_list<int>& init) {
 }
 
 void clock_move_tests() {
-    Clock c{make_clock({4, 3, 2, 1})}; SHOW_("clk2=4.03:02:01", c);
+    Clock c{make_clock({4, 3, 2, 1})}; SHOW_("clk2=4.03:02:01", c );
     Clock c2{std::move(c)};            SHOW_("clk2=4.03:02:01", c2);
-    c = make_clock({0, 0, 0, 1});      SHOW_("clk2=0.00:00:01", c);
+
+    SHOW_("clk2=0.00:00:59",   c = make_clock({0, 0, 0, 59})      );
+    SHOW_("clk2=0.00:01:00",   c.TickUp()                         );
+    SHOW_("clk2=0.00:00:59",   c.TickDown()                       );
+
+    SHOW_("clk2=1.23:59:59",   c = make_clock({1, 23, 59, 59})    );
+    SHOW_("clk2=2.00:00:00",   c.TickUp()                         );
+
+    SHOW_("clk2=1.23:59:59",   c.TickDown()                       );
+    SHOW_("clk2=0.00:00:00",   c = make_clock({0, 0, 0, 0})       );
 }
 
 void clock_tests() {
@@ -264,7 +273,7 @@ void clockwork_multiple_subscribers_test() {
     cw.subscribe([&os] { os << 'B'; });
     cw.subscribe([&os] { os << 'C'; });
     cw.tick();
-    SHOW_("ABC", os.str());
+//  SHOW_("ABC", os.str());
     SHOW_("true", check_permutation_of("ABC", os));
 }
 
@@ -393,10 +402,10 @@ void ui_util_tests() {
 }
 
 int main() {
-//  std::cout.setf(std::ios::boolalpha);
-//  counter_tests();
-//  clock_tests();
-//  clockwork_tests();
+    std::cout.setf(std::ios::boolalpha);
+    counter_tests();
+    clock_tests();
+    clockwork_tests();
     ui_util_tests();
     SHOW_TEST_SUMMARY();
 }
@@ -431,3 +440,5 @@ int main()
     return EXIT_FAILURE;
 }
 #endif
+
+

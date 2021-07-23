@@ -6,8 +6,7 @@
     (void)(std::cout << __FILE__ <<  ':' << __LINE__ << '\t'\
                      << #__VA_ARGS__ << " --> " << (__VA_ARGS__)\
                      << std::endl)
-int main()
-{
+int main() {
     std::cout.setf(std::ios::boolalpha);
     
     Clock c;                SHOW(c);

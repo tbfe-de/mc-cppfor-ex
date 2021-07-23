@@ -1,18 +1,24 @@
-To advance to the next step apply the following changes:
+# A Counter Chain Connected via Refereces
 
-* Improve the design by avoiding the need to have a data member
-  `next_counter_` in the counters when it is not needed (ie. in
-  the last counter of the chain):
-  * implement one class `LimitCounter`
-    * handling the reset logic in its `Count` member function
-    * but does NOT allow to chain to a next counter stage;
-  * from that derive a class `OverflowCounter` which calls the
+Precede as follows:
+
+-   Improve the design by avoiding the need to have a data
+    member `next_counter_` in the counters when it is not
+    needed (ie. in the last counter of the chain):
+  -   implement one class `LimitCounter`
+    -   handling the reset logic in its `Count` member
+        function but …
+    - … does NOT allow to chain to a next counter stage;
+  - from that derive a class `OverflowCounter` which calls the
     base class member function `LimitCounter::Count` for the
-    reset logic but once it detects when a reset takes place and
-    then forwards the carry.
+    reset logic.
+  - once it detects a reset needed to take takes place it
+    advances forwards to handle the carry ito the
+    appropriate way.
 
-* As there is always a next counter stage, instead of a pointer
-  a reference can (and should) be used to connect to it.
+-   As there is always a next counter stage, instead of a
+    pointer a reference can (and should) be used to connect
+    to it.
 
 NOTE: For an easier start here are the skeletons of the two
       classes:
@@ -41,15 +47,16 @@ NOTE: For an easier start here are the skeletons of the two
         ...
     };
 
-* The "hint" whether a reset took place, required should may
-  * EITHER  be given by a `bool` return value of
-    `LimitCounter::Count` which then is tested
+- The "hint" whether a reset took place, required should may
+  - EITHER  be given by a `bool` return value of\
+    `LimitCounter::Count` which then is tested\
     in `OverflowCounter::Count`
-  * OR by testing the base class counter value.
+  - OR by testing the base class counter value.
 
 NOTE: For an easier start here are the skeletons how the two
       `Count` member functions might be implemented.
 
+```
     // EITHER (first solution) that is the way to go:
     bool LimitCounter::Count() {
         ...increment counter...
@@ -83,33 +90,38 @@ NOTE: For an easier start here are the skeletons how the two
             next_counter_.Count();
        }
     }
+```
 
-* Do similar changes for the `LimitCounter::Reset`:
-  * simply set the counter value to `0`
-* And to `OverflowCounter::Reset`:
-  * call the inherited implementation,
-  * then reset the chained counter.
+- Apply similar changes for the `LimitCounter::Reset`:
+  - simply set the counter value to `0`
+- And to `OverflowCounter::Reset`:
+  - call the inherited implementation,
+  - then reset the chained counter.
     
-=================================================================
+* * * * *
 
 Optional:
 
-* Make sure you understand the design and especially why
-  * with three or more counters in the chain it is ESSENTIAL to
+- Make sure you understand the design and especially why
+  - with three or more counters in the chain it is ESSENTIAL to
     use late binding (= `virtual` member functions) for
     `LimitCounter::Count` and `LimitCounter::Reset`,
-  * while with only two counters (ie. a single `OverflowCounter`
+  - while with only two counters (ie. a single `OverflowCounter`
     connected to a single `LimitCounter` it would work without.
 
-* Furthermore, comparing the new design with a base and a derived
+- Furthermore, comparing the new design with a base and a derived
   class to the previous pointer-based solution with a single
   class, which made a decision whether there is a next counter
-  in the chain in a conditional statement
+  in the chain in a conditional statement …
 
-    ...
+```
+    …
     if (next_counter_ != nullptr)
         next_counter_.Count();
-    ...
+    …
+```
 
-  to WHERE is this test gone now? How does the equivalent branch
-  in the control-flow – that is still necessary(!) – happen?
+- …: WHERE is this test gone now?
+- I.e. How does the equivalent branch in the control-flow
+  happen?
+- Or isn't still necessary to be handled any longer?

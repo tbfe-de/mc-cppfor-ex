@@ -118,7 +118,6 @@ namespace KitchenTimer {
 
 using DHMS = std::array<Clock::value_type, 4>;
 
-
 auto Create(const UI::Command::Params& args) {
     std::ostringstream os{};
     DHMS dhms;

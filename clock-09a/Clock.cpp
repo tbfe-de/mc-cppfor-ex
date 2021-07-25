@@ -21,7 +21,7 @@ Clock& Clock::operator=(Clock &rhs) throw() {
     assert(minutes_.GetLimit() == rhs.minutes_.GetLimit());
     assert(seconds_.GetLimit() == rhs.seconds_.GetLimit());
 //  - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    name_ = std::move(rhs.name_);
+    name_ = rhs.name_;
     days_.SetValue(rhs.days_.GetValue());
     hours_.SetValue(rhs.hours_.GetValue());
     minutes_.SetValue(rhs.minutes_.GetValue());

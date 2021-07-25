@@ -1,4 +1,8 @@
-Using std::unique_ptr` for Storing the `name_` in `Clock`
----------------------------------------------------------
+# Simplify the code by using `std::unique_ptr`
 
-(As described of in the `TODO`-s of the previous step.)
+As promised, the solution was mostly deleting lines no
+longer necessary.
+
+The copy operations (constructor and assignment) are still
+kept to express the *Move Only* character of the class,
+though they wouldn't have to be included explicitly.

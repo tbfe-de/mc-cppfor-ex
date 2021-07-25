@@ -1,19 +1,18 @@
-Fill Extension Points via Template Base Class
----------------------------------------------
+# Fill Extension Points via Template Base Class
 
 Compared to the traditional "template methode pattern"
-(according to the name chosen by the authors of the widely known
-"GoF-Book"), which is filling extension points by overriding
-inherited member functions in derived classes, an alternative
-technique is shown here:
+(according to the name chosen by the authors of the widely
+known "GoF-Book"), which is filling extension points by
+overriding inherited member functions in derived classes, an
+alternative technique is shown here:
 
-It is based on calling member functions from a base class which
-is specified via a template argument, so that different base
-classes can be used for different needs.
+It is based on calling member functions from a base class
+which is specified via a template argument, so that
+different base classes can be used for different needs.
 
-In the past this has sometimes been called "inverted template
-method pattern" but meanwhile is more often called "policy based
-design".
+In the past this has sometimes been called "inverted
+template method pattern" but meanwhile is more often called
+"policy based design".
 
 -----------------------------------------------------------------
 NOTE: Applying this to the `LimitCounter` / `OverflowCounter`
@@ -23,9 +22,9 @@ NOTE: Applying this to the `LimitCounter` / `OverflowCounter`
 
 This technique has two possible problems, which are:
 
-(1) If the base class providing the implemenations for the
+(1) If the base class providing the implementations for the
     extension points needs to have its own (additional) data
-    members these must be intialized somehow.
+    members these must be initialized somehow.
 
 (2) If the base class needs access member data or functions of
     the (now derived) class constituting the "closed" part, it

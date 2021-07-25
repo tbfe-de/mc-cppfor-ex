@@ -1,5 +1,4 @@
-Separate Counting Into Two Classes
-----------------------------------
+# A Counter Chain Connected via References
 
 Using references instead of pointers to chain the counters.
 

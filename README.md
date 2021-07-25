@@ -9,7 +9,6 @@
     - * * * * - - - - * auto as return type
     - - - - - - - - * * std::initializer_list
     - - - - - - - - - * range-based for loops
-    - * * * * * * * * * rvalue references
     * * * * * * * * * * direct member initialization
     - * * * * * * * * - move constructor / assignment
     * * * * * * * * * * delete-ing copy/move
@@ -22,9 +21,10 @@
     - - - - - - - - - * std::unique_ptr
     - - - - - - - - - * STL algorithms
 
-Generally simply do a side-by-side comparison of the files
-in the `clock-0#` variant with their counterpart in the
-`clock-0#a` variant.
+Generally for the above you may just do a side-by-side
+comparison of the files in the `clock-0#` variant with their
+counterpart in the `clock-0#a` variant to see the equivalent
+C++98 feature.
 
 ## Specific C++11 features outside mainline steps 0 … 9
 
@@ -38,3 +38,7 @@ in the `clock-0#` variant with their counterpart in the
     10 11 ............. std::unordered_map
     10 11 ............. STL algorithms
     ................... constructor inheritance
+
+Here is no direct C++98 equivalent directly available.
+(Multiple template overloads as alternative to variadic
+template argument lists as used in `06y` are in `06x`.)

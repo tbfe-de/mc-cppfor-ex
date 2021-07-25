@@ -1,3 +1,3 @@
-# Adding an Interface to the Clock
+# A Counter Chain Connected via References
 
-Version of clock-02 using C++98 features only.
+Version of clock-03 using C++98 features only.

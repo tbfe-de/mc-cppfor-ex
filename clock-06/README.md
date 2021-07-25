@@ -1,6 +1,6 @@
 # Fill Extension Points via Template Base Class
 
-Compared to the traditional "template methode pattern"
+Compared to the traditional "template method pattern"
 (according to the name chosen by the authors of the widely
 known "GoF-Book"), which is filling extension points by
 overriding inherited member functions in derived classes, an
@@ -14,11 +14,11 @@ In the past this has sometimes been called "inverted
 template method pattern" but meanwhile is more often called
 "policy based design".
 
------------------------------------------------------------------
-NOTE: Applying this to the `LimitCounter` / `OverflowCounter`
-      example is a little bit more complicated as the simplest
-      possible form. Read on, it will be explained now.
------------------------------------------------------------------
+**NOTE:**\
+Applying this to the `LimitCounter` / `OverflowCounter`
+      example is a little bit more complicated as the
+      simplest possible form. Read on, it will be explained
+      now.
 
 This technique has two possible problems, which are:
 
@@ -30,12 +30,11 @@ This technique has two possible problems, which are:
     the (now derived) class constituting the "closed" part, it
     can get to them only via down-casts.
 
-There are solutions for both short-commings, which are shown in
-the extended solutions.
+There are solutions for both short-comings, which are shown
+in the extended solutions.
 
------------------------------------------------------------------
-NOTE: A detailed discussion of the extended solutions is defered
-      until C++ templates are covered in more depth. Feel free to
-      have a look in advance but maybe just note your questions,
-      they will be answered later.
------------------------------------------------------------------
+**NOTE:**\
+A detailed discussion of the extended solutions is deferred
+until C++ templates are covered in more depth. Feel free to
+have a look in advance but maybe note down your questions,
+they will be answered later.

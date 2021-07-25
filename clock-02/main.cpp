@@ -2,9 +2,7 @@
 
 extern void appl(IClock&);
                      
-int main()
-{
-    std::cout.setf(std::ios::boolalpha);
+int main() {
     Clock c{};
     appl(c);
  }

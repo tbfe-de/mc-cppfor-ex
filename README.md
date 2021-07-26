@@ -12,7 +12,7 @@
     * * * * * * * * * * direct member initialization
     - * * * * * * * * - move constructor / assignment
     * * * * * * * * * * delete-ing copy/move
-    - * * * * * * * * * default-ing / delete-ing (in general)
+    * * * * * * * * * * default-ing / delete-ing (in general)
     - - - - - - - * - - constructor delegation
     - * * * * * * * * * override / final
     - - - - - - - * - * lambdas

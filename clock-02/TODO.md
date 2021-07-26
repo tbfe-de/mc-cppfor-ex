@@ -1,6 +1,6 @@
 # A Counter Chain Connected via References
 
-Procede as follows:
+Proceed as follows:
 
 - Improve the design by avoiding the need to have a data
   member `next_counter_` in the counters when it is not
@@ -13,8 +13,7 @@ Procede as follows:
     the base class member function `LimitCounter::Count` for
     the reset logic.
   - once it detects a reset needed to take takes place it
-    advances forwards to handle the carry ito the
-    appropriate way.
+    forwards the carry in the appropriate way.
 - As there is always a next counter stage, instead of a
   pointer a reference can (and should) be used to connect to
   it.
@@ -46,7 +45,7 @@ public:
 };
 ```
 
-- The "hint" whether a reset took place, required may
+- The "hint" whether a reset took place, may
   - EITHER be given by a `bool` return value of\
     `LimitCounter::Count` which then is tested\
     in `OverflowCounter::Count`

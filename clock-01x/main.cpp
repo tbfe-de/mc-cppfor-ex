@@ -6,14 +6,14 @@
 #define SHOW_(expect, ...)\
     do {\
         std::ostringstream result;\
-	result.copyfmt(std::cout);\
-	result << (__VA_ARGS__);\
+        result.copyfmt(std::cout);\
+        result << (__VA_ARGS__);\
        	std::cout << __FILE__ <<  ':' << __LINE__ << '\t'\
                   << #__VA_ARGS__ << " --> " << result.str();\
-	if (result.str() != expect) {\
-		std::cout << " != " << expect;\
-	}\
-	std::cout << std::endl;\
+        if (result.str() != expect) {\
+            std::cout << " != " << expect;\
+        }\
+        std::cout << std::endl;\
     }\
     while (0)
 

@@ -13,7 +13,7 @@ void Counter::Count() {
 
 void Counter::Count(int steps) {
     while (steps-- > 0) {
-	Counter::Count();
+	    Counter::Count();
     }
 }
 

@@ -14,6 +14,6 @@ void Counter::Count(int amount) {
 void Counter::Reset() {
     value_ = 0;
     if (next_counter_) {
-	next_counter_->Reset();
+	    next_counter_->Reset();
     }
 }

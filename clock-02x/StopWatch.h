@@ -21,7 +21,7 @@ public:
     StopWatch(StopWatch&&) =delete;                     // move c'tor
     StopWatch& operator=(StopWatch&&) =delete;          // move assignment
 
-    virtual void Set(const std::initializer_list<int>& li);
+    virtual void Set(const std::initializer_list<int>& li) override;
     virtual void TickUp(int steps) override { fraction_.Count(steps); }
     virtual void Print(std::ostream&) const override;
 };

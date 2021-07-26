@@ -16,7 +16,7 @@ Virtual Interface)
 
 **Note:**\
 These two functions may (and should) be private` but can
-still be overriden in the derived class.
+still be overridden in the derived class.
 
 * * * * *
 

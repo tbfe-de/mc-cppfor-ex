@@ -16,7 +16,7 @@ in the chain holds a null pointer.
 UNRELATED improvements:
 
 Generating output has been moved into the helper macro
-`SHOW`` (intended to be useful mainly for proof of concept
+`SHOW` (intended to be useful mainly for proof of concept
 implementations).
 
 - PRO-s:

@@ -1,4 +1,3 @@
-Added More Intensive Unit-Testing for `ClockWork`
-------------------------------------------------
+# Understand the Command Loop Implemented in `appl`
 
-(As described of in the `TODO`-s of the previous step.)
+(As described  in the `TODO`-s of the previous step.)

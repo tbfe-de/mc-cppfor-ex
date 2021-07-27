@@ -36,10 +36,10 @@ is ambiguous. To avoid the ambiguity it is necessary to make
 `OverflowCounter`, which may cause a tiny performance
 penalty.
 
-(How much depends on the implementation, usually its
+(How much depends on the implementation, usually it's
 minimal, eg. instead of two levels of indirection when
 calling a function from the interface it may be three.)
 
 From the viewpoint of the LSP `OverflowCounter` also IS NOT
-A `LimitCounter`, though it shares most of its member
+a `LimitCounter`, though it shares most of its member
 function names.

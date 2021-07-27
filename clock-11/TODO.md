@@ -1,5 +1,5 @@
-To advance to the next step apply the following changes:
+# Start to Add Meaningful Functionality to the Command Loop
 
-Review the basic command loop in file `app.cpp`.
-
-Add more commands (TBD)
+!!!
+!!! Detailed description not yet done - will follow soon !!!
+!!!

@@ -1,0 +1,3 @@
+To advance to the next step apply the following changes:
+
+Review the basic command loop in file `app.cpp`.

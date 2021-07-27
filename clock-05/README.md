@@ -30,7 +30,7 @@ BASE CLASS of `OverflowCounter` (= Inheritance) which fills
 the extension points to implement the added behavior.
 
 As derived class `OverflowCounter` ALSO INHERITS the
-interface implementations from `LimitCounter`. But as the
+interface implementations from `LimitCounter`. But the
 public members there are `final` (as the following the
 NVI-idiom recommends.)
 

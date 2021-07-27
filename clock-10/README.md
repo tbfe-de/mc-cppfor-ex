@@ -1,4 +1,8 @@
-Added More Intensive Unit-Testing for `ClockWork`
------------------------------------------------
+# Add Testing for class `ClockWork`
 
-(As described of in the `TODO`-s of the previous step.)
+The tricky part here was that the expectation cannot be
+described exactly, so the tests must allow for several
+"valid" outcomes.
+
+Knowledge of the algorithms available in the STL can be
+helpful.

@@ -4,7 +4,7 @@ At this point a "fresh start" is made by building a `Clock`
 which can count up and down.
 
 The former are build based on objects of `UpDownCounter`-s,
-which – as their name suggests – supports counting up and
+which – as their name suggests – support counting up and
 down too, not only when used "stand alone" but also when
 "chained" together.
 

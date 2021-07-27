@@ -1,7 +1,7 @@
 # Simplify the code by using `std::unique_ptr`
 
 A *Move-Only* class implemented with raw pointers can
-typically be much simplified by replacing the raw pointer
+typically be simplified by replacing the raw pointer
 with an `std::unique_ptr`.
 
 - The constructor will have to do more or less the same as
@@ -15,5 +15,5 @@ with an `std::unique_ptr`.
   automatically `delete`-d as the `std::unique_ptr` member
   doesn't support copying.
 
-  So this exercse is mostly a.out deleting stuff (at the right
-  places).
+So this exercise is mostly about deleting stuff … (at the right
+places).

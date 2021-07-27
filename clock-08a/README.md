@@ -1,4 +1,3 @@
-(Headline TBD)
---------------
+# Various Improvements of `Clock` and `UpDownCounter`
 
-Implemented the TODO-s of the previous step.
+Version of `clock-08` using C++98 features only.

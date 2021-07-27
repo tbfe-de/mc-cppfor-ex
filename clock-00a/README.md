@@ -1,3 +1,3 @@
 # A Simple Class For Building a Clock
 
-Version of clock-00 using C++98 features only.
+Version of `clock-00` using C++98 features only.

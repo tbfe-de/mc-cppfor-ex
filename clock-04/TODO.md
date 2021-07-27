@@ -51,7 +51,7 @@ Optional/Advanced
 
 Discuss based on the LSP – i.e. for each DERIVED class (when
 accessed via reference or pointer) – may be used in place of
-any (direct or indirect) of its BASE classes (including
+any (direct or indirect) of its BASE classes, including
 interfaces.
 
 NOTE: The following question may "theoretically" be answered

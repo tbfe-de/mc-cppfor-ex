@@ -9,11 +9,11 @@ void LimitCounter::Count(int amount) {
 void LimitCounter::Count() {
     if (++value_ >= max_value_) {
         value_ = 0;
-        HasOverflowed();
+        PostOverflowAction();
     }
 }
 
 void LimitCounter::Reset() {
     value_ = 0;
-    HasResetted();
+    PostResetAction();
 }

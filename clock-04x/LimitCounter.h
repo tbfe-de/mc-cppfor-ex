@@ -8,11 +8,11 @@ private:
     int value_{};
     const int max_value_{};
     virtual void WillOverflow() {}
-    virtual void WillReset() {}
-    virtual void HasOverflowed() {}
-    virtual void HasResetted() {}
+    virtual void PreResetAction() {}
+    virtual void PostOverflowAction() {}
+    virtual void PostResetAction() {}
     virtual void CountMany(int);
-    virtual void HasOverflowed(int);
+    virtual void PostOverflowAction(int);
 public:
     LimitCounter(int max_value = std::numeric_limits<int>::max())
         : value_{0}

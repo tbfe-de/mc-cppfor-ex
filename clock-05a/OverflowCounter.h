@@ -10,8 +10,8 @@ public:
         : LimitCounter(max_value)
         , next_counter_(next_counter)
     {}
-    virtual void HasOverflowed();
-    virtual void HasResetted();
+    virtual void PostOverflowAction();
+    virtual void PostResetAction();
 };
 
 #endif

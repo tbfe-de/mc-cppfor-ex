@@ -7,8 +7,8 @@ class LimitCounter {
 private:
     int value_{};
     const int max_value_{};
-    virtual void HasOverflowed() {}
-    virtual void HasResetted() {}
+    virtual void OverflowAction() {}
+    virtual void ResetAction() {}
 public:
     LimitCounter(int max_value = std::numeric_limits<int>::max())
         : value_{0}

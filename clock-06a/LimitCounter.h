@@ -8,10 +8,10 @@ class CounterBase : public ICounter, private Details {
 private:
     int value_;
     const int max_value_;
-    using Details::WillOverflow;
-    using Details::WillReset;
-    using Details::HasOverflowed;
-    using Details::HasResetted;
+    using Details::PreOverflowAction;
+    using Details::PreResetAction;
+    using Details::PostOverflowAction;
+    using Details::PostResetAction;
 public:
     CounterBase(int max_value)
         : value_(0)
@@ -39,25 +39,25 @@ void CounterBase<Details>::Count(int amount) {
 template<typename Details>
 void CounterBase<Details>::Count() {
     if (++value_ >= max_value_) {
-        WillOverflow();
+        PreOverflowAction();
         value_ = 0;
-        HasOverflowed();
+        PostOverflowAction();
     }
 }
 
 template<typename Details>
 void CounterBase<Details>::Reset() {
-    WillReset();
+    PreResetAction();
     value_ = 0;
-    HasResetted();
+    PostResetAction();
 }
 
 class LimitCounter_Details {
 protected:
-    void WillOverflow() {}
-    void WillReset() {}
-    void HasOverflowed() {}
-    void HasResetted() {}
+    void PreOverflowAction() {}
+    void PreResetAction() {}
+    void PostOverflowAction() {}
+    void PostResetAction() {}
 };
 
 typedef CounterBase<LimitCounter_Details> LimitCounter ;

@@ -20,10 +20,10 @@ public:
     void Count(int amount);
     virtual void Count() override final;
     virtual void Reset() override final;
-    void WillOverflow() {}
-    void WillReset() {}
-    void HasOverflowed() {}
-    void HasResetted() {}
+    void PreOverflowAction() {}
+    void PreResetAction() {}
+    void PostOverflowAction() {}
+    void PostResetAction() {}
 };
 
 template<typename Details>
@@ -36,17 +36,17 @@ void CounterBase<Details>::Count(int amount) {
 template<typename Details>
 void CounterBase<Details>::Count() {
     if (++value_ >= max_value_) {
-        static_cast<Details*>(this)->WillOverflow();
+        static_cast<Details*>(this)->PreOverflowAction();
         value_ = 0;
-        static_cast<Details*>(this)->HasOverflowed();
+        static_cast<Details*>(this)->PostOverflowAction();
     }
 }
 
 template<typename Details>
 void CounterBase<Details>::Reset() {
-    static_cast<Details*>(this)->WillReset();
+    static_cast<Details*>(this)->PreResetAction();
     value_ = 0;
-    static_cast<Details*>(this)->HasResetted();
+    static_cast<Details*>(this)->PostResetAction();
 }
 
 class LimitCounter_Details : public CounterBase<LimitCounter_Details> {

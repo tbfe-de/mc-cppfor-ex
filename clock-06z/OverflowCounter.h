@@ -10,8 +10,8 @@ public:
         : CounterBase<OverflowCounter>{max_value}
         , next_counter_{next_counter}
     {}
-    void HasOverflowed() { next_counter_.Count(); }
-    void HasResetted() { next_counter_.Reset(); }
+    void PostOverflowAction() { next_counter_.Count(); }
+    void PostResetAction() { next_counter_.Reset(); }
 };
 
 

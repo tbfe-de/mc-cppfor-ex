@@ -7,10 +7,10 @@ class LimitCounter : public ICounter {
 private:
     int value_{};
     const int max_value_{};
-    virtual void WillOverflow() {}
-    virtual void WillReset() {}
-    virtual void HasOverflowed() {}
-    virtual void HasResetted() {}
+    virtual void PreOverflowAction() {}
+    virtual void PreResetAction() {}
+    virtual void PostOverflowAction() {}
+    virtual void PostResetAction() {}
 public:
     LimitCounter() =delete;
     LimitCounter(int max_value)

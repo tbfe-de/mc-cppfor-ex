@@ -10,8 +10,8 @@ protected:
         : LimitCounter_Details()
         , next_counter_(next_counter)
     {}
-    void HasOverflowed() { next_counter_.Count(); }
-    void HasResetted() { next_counter_.Reset(); }
+    void PostOverflowAction() { next_counter_.Count(); }
+    void PostResetAction() { next_counter_.Reset(); }
 };
 
 typedef CounterBase<OverflowCounter_Details> OverflowCounter;

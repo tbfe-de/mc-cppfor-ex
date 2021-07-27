@@ -1,15 +1,15 @@
 #include "OverflowCounter.h"
 
 #ifndef OC_SIMPLE_IMPLEMENTATION
-void OverflowCounter::HasOverflowed(int amount) {
+void OverflowCounter::PostOverflowAction(int amount) {
     next_counter_.Count(amount);
 }
 #endif
 
-void OverflowCounter::HasOverflowed() {
+void OverflowCounter::PostOverflowAction() {
     next_counter_.Count();
 }
 
-void OverflowCounter::HasResetted() {
+void OverflowCounter::PostResetAction() {
     next_counter_.Reset();
 }

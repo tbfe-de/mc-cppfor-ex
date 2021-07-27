@@ -15,10 +15,10 @@ public:
         , next_counter_{next_counter}
     {}
     #ifndef OC_SIMPLE_IMPLEMENTATION
-    virtual void HasOverflowed(int) override;
+    virtual void PostOverflowAction(int) override;
     #endif
-    virtual void HasOverflowed() override;
-    virtual void HasResetted() override;
+    virtual void PostOverflowAction() override;
+    virtual void PostResetAction() override;
 };
 
 #endif

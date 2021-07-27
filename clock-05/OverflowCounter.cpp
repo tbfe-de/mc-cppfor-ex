@@ -1,9 +1,9 @@
 #include "OverflowCounter.h"
 
-void OverflowCounter::HasOverflowed() {
+void OverflowCounter::PostOverflowAction() {
     next_counter_.Count();
 }
 
-void OverflowCounter::HasResetted() {
+void OverflowCounter::PostResetAction() {
     next_counter_.Reset();
 }

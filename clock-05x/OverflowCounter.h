@@ -12,8 +12,8 @@ public:
         : LimitCounter{max_value}
         , next_counter_{next_counter}
     {}
-    virtual void HasOverflowed() override;
-    virtual void HasResetted() override;
+    virtual void PostOverflowAction() override;
+    virtual void PostResetAction() override;
     using LimitCounter::SetValue;
     using LimitCounter::GetValue;
     using LimitCounter::Count;

@@ -14,8 +14,8 @@ public:
         : LimitCounter{max_value}
         , next_counter_{next_counter}
     {}
-    virtual void HasOverflowed() override;
-    virtual void HasResetted() override;
+    virtual void OverflowAction() override;
+    virtual void ResetAction() override;
 };
 
 #endif

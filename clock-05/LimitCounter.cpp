@@ -8,14 +8,14 @@ void LimitCounter::Count(int amount) {
 
 void LimitCounter::Count() {
     if (++value_ >= max_value_) {
-        WillOverflow();
+        PreOverflowAction();
         value_ = 0;
-        HasOverflowed();
+        PostOverflowAction();
     }
 }
 
 void LimitCounter::Reset() {
-    WillReset();
+    PreResetAction();
     value_ = 0;
-    HasResetted();
+    PostResetAction();
 }

@@ -26,9 +26,9 @@ This technique has two possible problems, which are:
     extension points needs to have its own (additional) data
     members these must be initialized somehow.
 
-(2) If the base class needs access member data or functions of
-    the (now derived) class, constituting the "closed" part, it
-    can get to them only via down-casts.
+(2) If the base class needs access member data or functions
+    of the (now derived) class, constituting the "closed"
+    part, it can get to them only via down-casts.
 
 There are solutions for both short-comings, which are shown
 in the extended solutions.

@@ -12,7 +12,7 @@ may be considered as not "quite clean", Though actually
 there is just one line of code to check for a verification
 that all is fine.
 
-This is the resulging class diagram:
+This is the resulting class diagram:
 
     +-----------------+
     |  <<interface>>  |
@@ -41,4 +41,4 @@ This is the resulging class diagram:
     |                 |
     | OverflowCounter |
     +-----------------+
-    
+   

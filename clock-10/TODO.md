@@ -11,9 +11,10 @@ not yet ready for use).
     and displayed as command menu.**
   - this will be done in the next step.
 
-- What you rather may want to try is adding different KINDS of
-  implementation for your "fake", that are all compatible with
-  the `std::function` type expected, like:
+- What you rather may want to try is adding different KINDS
+  of implementation for your "fake", that are all compatible
+  with the `std::function` type expected, like:
   - Classic C-style function pointers.
-  - C++ functors (= classes overloading the function call operator)
+  - C++ functors (= classes overloading the function call
+    operator)
   - C++11 lambdas.

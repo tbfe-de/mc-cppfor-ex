@@ -49,6 +49,8 @@ void Clock::Print(std::ostream& s) const {
     std::ostream os{s.rdbuf()};
     os.fill('0');
     using ULL = unsigned long long;
+    // den enthaltenen char* bekommt man
+    // vom unique_ptr mittels .get()
     const auto name = name_ ? name_ : "?dead?";
     os << name << '=' << ULL{days_.GetValue()} << '.'
        << std::setw(2) << ULL{hours_.GetValue()} << ':'

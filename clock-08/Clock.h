@@ -9,6 +9,7 @@
 
 class Clock : public IClock {
     const char* name_;
+ // std::unique_ptr<char[]> name_; // <----- damit d'tor das delete[] verwendet   
     UpDownCounter days_;
     UpDownCounter hours_;
     UpDownCounter minutes_;

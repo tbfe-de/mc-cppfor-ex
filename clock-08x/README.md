@@ -23,6 +23,7 @@ function that throws an exception.
   - `clock-08/UpDownCounter.cpp` to
   - `clock-08x/UpDownCounter.cpp`.
 - For details wrt. to the difference in unit testing do a side
+  compare of files
   - `clock-08/main.cpp` to
   - `clock-08x/main.cpp`.
    

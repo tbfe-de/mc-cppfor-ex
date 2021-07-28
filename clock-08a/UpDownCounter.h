@@ -50,7 +50,9 @@ public:
         : value_(0)
         , max_value_(0)
         , next_counter_(NULL)
-    {}
+    {
+        check_in_range_value();
+    }
 
     // chaining counter with explicit maximum and initial value zero
     //
@@ -58,7 +60,9 @@ public:
         : value_(0)
         , max_value_(max_value)
         , next_counter_(next_counter)
-    {}
+    {
+        check_in_range_value();
+    }
 
     // NON-chaining counter with explicit maximum and explicit initial value
     //
@@ -66,7 +70,9 @@ public:
         : value_(value)
         , max_value_(max_value)
         , next_counter_(NULL)
-    {} 
+    {
+        check_in_range_value();
+    } 
 
     // NON-chaining counter with explicit maximum and initial value zero
     //
@@ -74,7 +80,9 @@ public:
         : value_(0)
         , max_value_(max_value)
         , next_counter_(NULL)
-    {}
+    {
+        check_in_range_value();
+    }
 
     // chaining counter with NO maximum and initial value zero
     //
@@ -82,7 +90,9 @@ public:
         : value_(0)
         , max_value_(0)
         , next_counter_(next_counter)
-    {} 
+    {
+        check_in_range_value();
+    } 
 
     void SetValue(value_type value) {
         value_ = value;

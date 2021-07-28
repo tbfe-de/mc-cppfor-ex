@@ -1,4 +1,4 @@
-# Understand the Command Loop implemented in `appl`
+# Understand the Command Loop Implemented in `appl`
 
 Review the command loop introduced in this step (instead of
 just throwing an exception to indicate the application is

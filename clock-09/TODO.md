@@ -1,7 +1,7 @@
 # Add Testing for class `ClockWork`
 
 At this step a new class `ClockWork` is introduced which
-basically implement the "Publisher Subscriber" pattern.
+basically implements the "Publisher Subscriber" pattern.
 
 * * * * *
 
@@ -9,7 +9,7 @@ If not already done, give its header and implementation file
 a short review before continuing.
 
 **Understand that some pieces of its implementation are
-still missing and will be addede in later steps.**
+still missing and will be added in later steps.**
 
 * * * * *
 

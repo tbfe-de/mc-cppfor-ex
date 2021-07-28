@@ -16,3 +16,13 @@ function that throws an exception.
   problem with a return value which is tested and turned
   into throwing an exception in the constructor, not vice
   versa.
+- For details wrt. to the difference in implementation do a
+  side by side compare of files
+  - `clock-08/UpDownCounter.h` to
+  - `clock-08x/UpDownCounter.h`
+  - `clock-08/UpDownCounter.cpp` to
+  - `clock-08x/UpDownCounter.cpp`.
+- For details wrt. to the difference in unit testing do a side
+  - `clock-08/main.cpp` to
+  - `clock-08x/main.cpp`.
+   

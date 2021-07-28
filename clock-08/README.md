@@ -60,8 +60,13 @@ Instead of simply `delete`-ing both, copy and the move
 operations of class `Clock`, the move operation was
 explicitly implemented.
 
-(For details do a side by side compare of the header and
-implementation files.)
+For details do a side by side compare of
+- header files
+  - `clock-07/Clock.h` to
+  - `clock-08/Clock.h`
+- and implementation files
+  - `clock-07/Clock.cpp` to
+  - `clock-08/Clock.cpp`.
 
 ## General Topic – Code Robustness
 
@@ -83,8 +88,8 @@ quality" have been made, covering the following main areas:
 
 - The different behavior to indicated an out of range value
   being set in the constructor and with `SetValue`
-  (exception thrown vs. return `bool`) has been not
-  implemented as.
+  (exception thrown vs. return `bool`) has been NOT been
+  implemented in the main stream solution.
   - Reason: It might "surprise" users (= other developers
     using that class) who have not thoroughly checked the
     documentation.
@@ -95,6 +100,3 @@ quality" have been made, covering the following main areas:
   - That behavior was implemented in a common helper
     function (named `check_in_range_value`) it is guaranteed
     to work consistently in both case.
-
-(For details do a side by side compare of the header and
-implementation files.)

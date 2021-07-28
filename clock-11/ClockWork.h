@@ -19,8 +19,7 @@ private:
     auto next_unused_id() {
         CallBackID result{};
         do result = rand_id();
-        while ((result == CallBackID{})
-            || (subscribers.count(result) > 0));
+        while (subscribers.count(result) > 0);
         return result;
     }
 public:

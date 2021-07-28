@@ -1,57 +1,59 @@
-# Add Testing for class `ClockWork`
+# Cleanup Unit Testing Implementation With `SHOW_`
 
-At this step a new class `ClockWork` is introduced which
-basically implements the "Publisher Subscriber" pattern.
+This is how to proceed:
+
+- Determine which features only work in macros.
+- From that determine which arguments a function to replace
+  the macro would need to have.
+- Understand that one of the arguments varies in type, so
+  the function needs to be a template.
+- Write a template function `SHOW_helper` according to that
+  analysis.
+- Keep the macro `SHOW_` to call that function with the
+  proper arguments by using the features unique to macro
+  expansion.
 
 * * * * *
 
-If not already done, give its header and implementation file
-a short review before continuing.
+If you need help, read on below.
 
-**Understand that some pieces of its implementation are
-still missing and will be added in later steps.**
+**But maybe first on your own.**
 
 * * * * *
 
-The intended use of a `ClockWork` is to "tick up" the
-registered `Clock` objects. (In the final version that will
-be done in a separate thread.)
-
-To advance to the next step implement more intensive
-testing. Some TBD-s have already been prepared in
-`main.cpp`.
-
-Understand these small pitfalls and obstacles and how to
-avoid them:
-
-- An `std::ostringstream os` collects ALL of the input you
-  send to it UNLESS you clear it in between.
-  - So you EITHER have to include all prior output in your
-    expectations …
-  - … OR use `os.str("")` in between
-  - … OR use separate `std::ostringstream`-s.
-
-- The callbacks will run in no guaranteed particular order
-  by `ClockWork::tick()`. So if the callbacks use a single
-  letter output to indicate which one has been run, every
-  permutation needs to be considered valid for a successful
-  test.
-
-Building on the standard algorithm `std::is_permutation` this
-could be tested with the following helper function:
+Here is what the template function would need to look like.
+(Long expressive argument names are used to show the intent.
+You may use shorter names in your solution.)
 
 ```
-#include <algorithm>
-bool check_permutation_of(const std::string s1,
-                          std::ostringstream& os) {
-    const auto s2 = os.str();
-    return std::is_permutation(s1.cbegin(), s1.cend(),
-                               s2.cbegin(), s2.cend());
+template<typename T>
+void SHOW_helper(
+    const char* expectation_string,
+    const T& evaluated_expression,
+    const char* textual_expression,
+    const char* called_by_function,
+    int called_at_source_line)
+{
+    // 
+    // TBD
+    //
 }
 ```
 
-**NOTE:**\
-When unit-testing with `SHOW_` you need to test for the
-expect result `"true"` as outcome of `check_permutation_of`
-(or "1" depending if `std::ios::boolalpha` has not been set
-for `std::cout`.)
+* * * * *
+
+Optional:
+
+Consider to put the above helper function in an anonymous
+namespace. Same for two variables that count the number of
+tests and how many tests failed.
+
+Alternatively put all of the above into a class with
+`static` members only, maybe together with the function that
+shows the summary.
+
+Do you see any chance how the function that shows the summary
+might be called automatically, when the `main` program ends?
+- For solution with the namespace?
+- For the solution with the (all `static` member) class?
+- For a solution in which an object of that class is created?

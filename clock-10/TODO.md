@@ -1,20 +1,57 @@
-# Understand the Command Loop Implemented in `appl`
+# Add Testing for class `ClockWork`
 
-Review the command loop introduced in this step (instead of
-just throwing an exception to indicate the application is
-not yet ready for use).
+At this step a new class `ClockWork` is introduced which
+basically implements the "Publisher Subscriber" pattern.
 
-- To test your understanding add some commands.
-  - The commands you add are only meant you can SHOW how
-    things work.
-  - **They should not yet accord to what is already prepared
-    and displayed as command menu.**
-  - this will be done in the next step.
+* * * * *
 
-- What you rather may want to try is adding different KINDS
-  of implementation for your "fake", that are all compatible
-  with the `std::function` type expected, like:
-  - Classic C-style function pointers.
-  - C++ functors (= classes overloading the function call
-    operator)
-  - C++11 lambdas.
+If not already done, give its header and implementation file
+a short review before continuing.
+
+**Understand that some pieces of its implementation are
+still missing and will be added in later steps.**
+
+* * * * *
+
+The intended use of a `ClockWork` is to "tick up" the
+registered `Clock` objects. (In the final version that will
+be done in a separate thread.)
+
+To advance to the next step implement more intensive
+testing. Some TBD-s have already been prepared in
+`main.cpp`.
+
+Understand these small pitfalls and obstacles and how to
+avoid them:
+
+- An `std::ostringstream os` collects ALL of the input you
+  send to it UNLESS you clear it in between.
+  - So you EITHER have to include all prior output in your
+    expectations …
+  - … OR use `os.str("")` in between
+  - … OR use separate `std::ostringstream`-s.
+
+- The callbacks will run in no guaranteed particular order
+  by `ClockWork::tick()`. So if the callbacks use a single
+  letter output to indicate which one has been run, every
+  permutation needs to be considered valid for a successful
+  test.
+
+Building on the standard algorithm `std::is_permutation` this
+could be tested with the following helper function:
+
+```
+#include <algorithm>
+bool check_permutation_of(const std::string s1,
+                          std::ostringstream& os) {
+    const auto s2 = os.str();
+    return std::is_permutation(s1.cbegin(), s1.cend(),
+                               s2.cbegin(), s2.cend());
+}
+```
+
+**NOTE:**\
+When unit-testing with `SHOW_` you need to test for the
+expect result `"true"` as outcome of `check_permutation_of`
+(or "1" depending if `std::ios::boolalpha` has not been set
+for `std::cout`.)

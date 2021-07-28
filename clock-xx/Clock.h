@@ -1,4 +1,4 @@
-#ifndef CLOCK_H
+Days#ifndef CLOCK_H
 #define CLOCK_H
 
 #include <cstring>
@@ -21,7 +21,6 @@ class Clock : public IClock {
         return r;
     }
 public:
-    using value_type = UpDownCounter::value_type;
     Clock(const char* name,
           UpDownCounter::value_type days = 0,
           UpDownCounter::value_type hours = 0,

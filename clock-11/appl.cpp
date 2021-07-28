@@ -1,21 +1,12 @@
-#include <algorithm>
-#include <array>
-#include <cassert>
 #include <cstdlib>
-#include <cstring>
 #include <functional>
 #include <initializer_list>
 #include <iostream>
 #include <iomanip>
 #include <regex>
-#include <stdexcept>
 #include <sstream>
 #include <string>
 #include <tuple>
-#include <utility>
-#include <vector>
-
-#include "Clock.h"
 
 namespace UI { ////////////////////////////////////////////////////////////////
 
@@ -95,7 +86,7 @@ void main_loop(std::istream& in, std::ostream& out, std::ostream& dbg_out,
          // -------------====================---
             const auto success{ std::get<bool>(result) };
             const auto& message{ std::get<std::string>(result) };
-            const auto label{ success ? ":::" : "***"};
+            const auto label{ success ? "OK:" : "???"};
             out << label << ' ' << message << std::endl; }
         else {
             out << "!!! not yet implemented !!!" << std::endl;
@@ -121,237 +112,68 @@ void main_loop(std::istream& in, std::ostream& out, std::ostream& dbg_out,
 
 } //namespace UI///////////////////////////////////////////////////////////////
 
-namespace KitchenTimer { //////////////////////////////////////////////////////
+#include "Clock.h"
 
-enum class State : char {
-    Ready      = 'R',
-    Countdown  = 'C',
-    Paused     = 'P',
-    Expired    = 'X',
-};
+namespace KitchenTimer {
 
-using ControlledClock = std::tuple<Clock, State>;
-using TimerCollection = std::vector<ControlledClock>;
-using DHMS = std::array<int, 4>;
+using DHMS = std::array<Clock::value_type, 4>;
 
-TimerCollection allTimers;
-
-auto CC_IteratorFor(const std::string& name, bool create = false) {
-    auto name_cmp {
-        [name_c_str = name.c_str()](const auto& e) {
-            const auto& clockRef{ std::get<Clock>(e) };
-            return (std::strcmp(clockRef.GetName(), name_c_str) == 0);
-        }
-    };
-    auto result {
-        std::find_if(allTimers.begin(), allTimers.end(), name_cmp)
-    };
-    if ((result == allTimers.end()) && create) {
-        ControlledClock cc{ name.c_str(), State::Ready };
-        result = allTimers.insert(result, std::move(cc)); 
-    }
-    return result;
-}
-
-auto Create(const std::string& name, const DHMS& dhms) {
+auto Create(const UI::Command::Params& args) {
     std::ostringstream os{};
-    const auto ccIt{ CC_IteratorFor(name, true) };
-    auto& clockRef{ std::get<Clock>(*ccIt) };
-    auto& stateRef{ std::get<State>(*ccIt) };
-    if (stateRef != State::Ready) {
-        os << "timer(" << name << ") currently in use";
-        return UI::Command::Result{ false, os.str() };
-    }
+    DHMS dhms;
     auto range_limited_set{
-        [&clockRef, &os](const char* field, int limit, auto value, auto to) {
+        [&os](const char* field, int limit, const auto& from, auto& to) {
+            const auto value{ std::stoul(from) };
             if (value < limit) {
-                (clockRef.*to)(value);
+                to = value;
             } else {
                 if (!os.str().empty()) {
                    os << '\n';
                 }
-                os << "value(" << value << ")"
+                os << "*** value(" << value << ")"
                       " exceeds limit(" << limit << ")"
                       " for " << field;
             }
         }
     };
 
-    range_limited_set("days", 255, dhms.at(0), &Clock::Days);
-    range_limited_set("hours", 24, dhms.at(1), &Clock::Hours);
-    range_limited_set("minutes", 60, dhms.at(2), &Clock::Minutes);
-    range_limited_set("seconds", 60, dhms.at(3), &Clock::Seconds);
+    range_limited_set("days",   255, args[2].str(), dhms.at(0));
+    range_limited_set("hours",   24, args[3].str(), dhms.at(1));
+    range_limited_set("minutes", 60, args[4].str(), dhms.at(2));
+    range_limited_set("seconds", 60, args[5].str(), dhms.at(3));
 
     if (!os.str().empty()) {
-        allTimers.erase(ccIt);
         return UI::Command::Result{ false, os.str() };
     }
-
-    os << "timer '" << name << "' ready to be started";
-    return UI::Command::Result{ true, os.str() };
+    //
+    // TBD: add timer to global timer collection
+    //
+    return UI::Command::Result{ true, {} };
 }
 
-auto Start(const std::string& name) {
-    std::ostringstream os{};
-    const auto ccIt{ CC_IteratorFor(name) };
-    if (ccIt == allTimers.end()) {
-        os << "timer '" << name << "' does not exist";
-        return UI::Command::Result{ false, os.str() };
-    }
-    auto& stateRef{ std::get<State>(*ccIt) };
-    switch (stateRef) {
-    case State::Ready:
-     // - - - - - ->>>>>>>>>>>>>>>>-
-        stateRef = State::Countdown;
-     // - - - - - ->>>>>>>>>>>>>>>>-
-        os << "timer '" << name << "' counting down";
-        return UI::Command::Result{ true, os.str() };
-    default:
-        os << "timer '" << name << "' already active";
-        return UI::Command::Result{ false, os.str() };
-    }
-}
-
-auto Pause(const std::string& name) {
-    std::ostringstream os{};
-    const auto ccIt{ CC_IteratorFor(name) };
-    if (ccIt == allTimers.end()) {
-        os << "timer '" << name << "' does not exist";
-        return UI::Command::Result{ false, os.str() };
-    }
-    auto& stateRef{ std::get<State>(*ccIt) };
-    switch (stateRef) {
-    case State::Countdown:
-     // - - - - - ->>>>>>>>>>>>>-
-        stateRef = State::Paused;
-     // - - - - - ->>>>>>>>>>>>>-
-        os << "timer '" << name << "' pauses ...";
-        return UI::Command::Result{ true, os.str() };
-    default:
-        os << "timer '" << name << "' not counting";
-        return UI::Command::Result{ false, os.str() };
-    }
-}
-
-auto Resume(const std::string& name) {
-    std::ostringstream os{};
-    const auto ccIt{ CC_IteratorFor(name) };
-    if (ccIt == allTimers.end()) {
-        os << "timer '" << name << "' doesn't exist";
-        return UI::Command::Result{ false, os.str() };
-    }
-    auto& stateRef{ std::get<State>(*ccIt) };
-    switch (stateRef) {
-    case State::Paused:
-        os << "timer '" << name << "' ... resumes";
-     // - - - - - ->>>>>>>>>>>>>>>>-
-        stateRef = State::Countdown;
-     // - - - - - ->>>>>>>>>>>>>>>>-
-        return UI::Command::Result{ true, os.str() };
-    default:
-        os << "timer '" << name << "' not paused";
-        return UI::Command::Result{ false, os.str() };
-    }
-}
-
-auto Delete(const std::string& name) {
-    std::ostringstream os{};
-    auto ccIt{ CC_IteratorFor(name) };
-    if (ccIt == allTimers.end()) {
-        os << "timer '" << name << "' doesn't exist";
-        return UI::Command::Result{ false, os.str() };
-    }
-    allTimers.erase(ccIt);
-    os << "timer '" << name << "' deleted";
-    return UI::Command::Result{ true, os.str() };
-}
-
-auto TickAll(const std::string& steps) {
-    auto advance_timer{
-        [](auto& e) {
-            auto& clockRef{ std::get<Clock>(e) };
-            auto& stateRef{ std::get<State>(e) };
-            switch (stateRef) {
-            case State::Countdown:
-             // ===================-
-                clockRef.TickDown();
-             // ===================-
-                if (clockRef.IsFloor()) {
-                 // - - - - - ->>>>>>>>>>>>>>-
-                    stateRef = State::Expired;
-                 // - - - - - ->>>>>>>>>>>>>>-
-                }
-                break;
-            case State::Expired:
-                if (!clockRef.IsCeiling()) {
-                 // =================-
-                    clockRef.TickUp();
-                 // =================-
-                }
-                break;
-            }
-        }
-    };
-
-    for (auto count = std::stoi(steps); count > 0; --count) {
-        for (auto& e : allTimers) {
-         // ================-
-            advance_timer(e);
-         // ================-
-        }
-    }
-
-    std::ostringstream os{};
-    os << "advanced counters " << steps << " steps";
-    return UI::Command::Result{ true, os.str() };
-}
-
-void ShowAll(std::ostream& dbg_log) {
-    for (const auto& e : allTimers) {
-        dbg_log << '[' << char(std::get<State>(e)) << ']'
-                << ' ' << std::get<Clock>(e) << std::endl;
-    }
-}
-
-UI::Command::Menu::Control menuControl = {
-   { //-------------------------------------------------------------
+UI::Command::Menu::Control commandMenu = {
+   { //-----------------------------------------------------------
        "create <timer> <days> <hours> <minutes> <seconds>",
        R"((?:create|c) ([a-z]+) (\d+) (\d+) (\d+) (\d+))",
-       [](auto m) {
-           return Create(m[1].str(),
-                  DHMS{ std::stoi(m[2].str()),
-                        std::stoi(m[3].str()),
-                        std::stoi(m[4].str()),
-                        std::stoi(m[5].str())
-                  });
-       }
+       KitchenTimer::Create
    },
-   { //-------------------------------------------------------------
+   { //-----------------------------------------------------------
        "start <timer>",
        R"((?:start|s) ([a-z]+))",
-       [](auto m) { return Start(m[1].str()); }
    },
-   { //-------------------------------------------------------------
+   { //-----------------------------------------------------------
        "pause <timer>",
        R"((?:pause|p) ([a-z]+))",
-       [](auto m) { return Pause(m[1].str()); }
    },
-   { //-------------------------------------------------------------
+   { //-----------------------------------------------------------
        "resume <timer>",
        R"((?:resume|r) ([a-z]+))",
-       [](auto m) { return Resume(m[1].str()); }
    },
-   { //-------------------------------------------------------------
+   { //-----------------------------------------------------------
        "delete <timer>",
        R"((?:delete|d) ([a-z]+))",
-       [](auto m) { return Delete(m[1].str()); }
    },
-   { //-------------------------------------------------------------
-       "<steps>",
-       R"(\d+)",
-       [](auto m) { return TickAll(m[0].str()); }
-   },
-   { //-------------------------------------------------------------
+   { //-----------------------------------------------------------
        "quit",
        R"(quit|q)",
        [](auto) -> UI::Command::Result { throw 0; }
@@ -360,10 +182,11 @@ UI::Command::Menu::Control menuControl = {
 
 } //namespace KitchenTimer/////////////////////////////////////////////////////
 
-
 void appl() {
+    using namespace std::placeholders;
     UI::main_loop(std::cin, std::cout, std::clog,
-                  std::bind(KitchenTimer::ShowAll, std::ref(std::clog)),
-                  KitchenTimer::menuControl,
-                  UI::Command::Menu::Postlude{});
+                  UI::Command::Menu::Prelude{},
+                  KitchenTimer::commandMenu,
+                  std::bind(UI::debug_match_args, _1, std::ref(std::clog))
+                 );
 }

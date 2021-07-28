@@ -9,7 +9,7 @@ Clock::Clock(Clock &&init) noexcept
     , days_{init.days_.GetValue(), init.days_.GetLimit()}
     , hours_{init.hours_.GetValue(), init.hours_.GetLimit(), &days_}
     , minutes_{init.minutes_.GetValue(), init.minutes_.GetLimit(), &hours_}
-    , seconds_{init.seconds_.GetValue(), init.seconds_.GetLimit(), &minutes_}
+    , seconds_{init.seconds_.GetValue(), init.seconds_.GetLimit(), &seconds_}
 {
     init.name_ = nullptr;
 }

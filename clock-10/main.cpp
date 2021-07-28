@@ -5,20 +5,28 @@
 
 int SHOW_tests{0};
 int SHOW_failed{0};
+template<typename T>
+void SHOW_helper(
+    const std::string& expectation_string,
+    const T& evaluated_expression,
+    const char* textual_expression,
+    const char* called_by_function,
+    int called_at_source_line
+) {
+    ++SHOW_tests;
+    std::ostringstream result;
+    result.copyfmt(std::cout);
+    result << evaluated_expression;
+    if (result.str() != expectation_string) {
+            std::cout << called_by_function <<  ':' << called_at_source_line << '\t'
+                        << textual_expression << " --> " << result.str()
+                        << " != " << expectation_string << std::endl;
+            ++SHOW_failed;
+    }
+}
 #define SHOW_(expect, ...)\
-    do {\
-        ++SHOW_tests;\
-        std::ostringstream result;\
-        result.copyfmt(std::cout);\
-        result << (__VA_ARGS__);\
-        if (result.str() != expect) {\
-                std::cout << __FUNCTION__ <<  ':' << __LINE__ << '\t'\
-                          << #__VA_ARGS__ << " --> " << result.str()\
-                          << " != " << expect << std::endl;\
-                ++SHOW_failed;\
-        }\
-    }\
-    while (0)
+    SHOW_helper(expect, (__VA_ARGS__), #__VA_ARGS__, __FUNCTION__, __LINE__);
+
 #define SHOW_TEST_SUMMARY()\
     ((void)((SHOW_failed == 0)\
             ? std::cout << "*** " << SHOW_tests << " tests PASSED" << std::endl\

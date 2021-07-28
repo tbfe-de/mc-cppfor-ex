@@ -28,7 +28,7 @@ You may use shorter names in your solution.)
 ```
 template<typename T>
 void SHOW_helper(
-    const char* expectation_string,
+    const std::string& expectation_string,
     const T& evaluated_expression,
     const char* textual_expression,
     const char* called_by_function,

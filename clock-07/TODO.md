@@ -62,26 +62,12 @@ to try your hands on it.
 
 * * * * *
 
-## General Topic – Code Robustness
-
-- In the constructor of class `UpDownCounter` make sure the
-  current value is inside the range `0` and `max_value - 1`
-  - Proposal: If the value set is equal to or exceeds the
-    maximum value allowed, set it to the allowed maximum.
-
-- Similar in `SetValue`, but in this case indicate via a
-  `bool` return value whether
-  - the new value has actually been set (then return `true`)
-  - or was out of range and has not been set (then return
-    `false`).
-
 ## General Topic – Exceptions
 
 - Modify the `main` program` calling the `appl` function as
   defined in source file `appl.c` so that it catches the
   exception currently thrown and displays its text before
   ending returning `EXIT_FAILURE`.
-
 
 - Try throwing the following different exceptions from
   `appl` and demonstrate a `catch(...)` – i.e. using three
@@ -168,3 +154,30 @@ to try your hands on it.
   - (Or maybe even write the tests before the
     implementation, which would be even more in the "spirit
     of TDD".)
+
+## General Topic – Code Robustness
+
+- In the constructor of class `UpDownCounter` make sure the
+  current value is inside the range `0` and `max_value_ - 1`
+  - Proposal: If the value set is equal to or exceeds the
+    maximum value allowed, set it to the allowed maximum.
+
+- Similar in `SetValue`, make sure the mew value is inside
+  the range `0` and `max_value_ - 1`.
+  - Proposal: Indicate via a `bool` return value whether the
+  - new value has actually been set (then return `true`)
+  - or was out of range (then don't set it and return `false`).
+
+- Evaluate the above design under the aspect of "usability",
+  especially what the "users" (= other developers making use
+  of that class) might expect:
+  - In one case possible usage errors need to be caught with
+    a `try`- `catch` construct, in the other case with active
+    testing? How to "argue" in favor of that difference?
+  - May exception be used in both cases?
+  - May active testing be used in both cases?
+  - How may a common private member function be used in both
+    cases (suggested name: `check_in_range_value`), which
+    throws an exception in the constructor but is
+    "converted" somehow into just returning `bool` from
+    `SetValue`?

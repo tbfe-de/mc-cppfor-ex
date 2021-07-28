@@ -75,10 +75,7 @@ public:
         : UpDownCounter(0, 0, next_counter)
     {} 
 
-    void SetValue(value_type value) {
-        value_ = value;
-        check_in_range_value();
-    }
+    bool SetValue(value_type);
     value_type GetValue() const { return value_; }
     value_type GetLimit() const { return max_value_; }
     void UpCount();

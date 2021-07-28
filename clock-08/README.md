@@ -22,27 +22,6 @@ file `main.cpp` has two separate purposes:
 Here is an overview of what has been implemented from the
 TODO-s of the previous step:
 
-## General Topic – Code Robustness
-
-Some changes with the intend to "improve the overall code
-quality" have been made, covering the following main areas:
-
-- Readability/understandability of the source code itself by
-  adding comments, e.g. more clearly describing the purpose
-  of the various `UpDownCounter` constructors.
-
-- Robustness has been improved by:
-  - "Precondition Checking", like catching potential USAGE
-    errors early (e.g. whether a start value is given to the
-    constructor that is already outside the limits within
-    the counter can operate.
-  - "Postcondition Checking", like catching potential
-    IMPLEMENTATION error that led to counter value outside the
-    allowed range.
-
-(For details do a side by side compare of the header and
-implementation files.)
-
 ## General Topic – Exceptions
 
 In `appl.cpp` various ways to throw exceptions are
@@ -80,6 +59,42 @@ produce the expected output).
 Instead of simply `delete`-ing both, copy and the move
 operations of class `Clock`, the move operation was
 explicitly implemented.
+
+(For details do a side by side compare of the header and
+implementation files.)
+
+## General Topic – Code Robustness
+
+Some changes with the intend to "improve the overall code
+quality" have been made, covering the following main areas:
+
+- Readability/understandability of the source code itself by
+  adding comments, e.g. more clearly describing the purpose
+  of the various `UpDownCounter` constructors.
+
+- Robustness has been improved by:
+  - "Precondition Checking", like catching potential USAGE
+    errors early (e.g. whether a start value is given to the
+    constructor that is already outside the limits within
+    the counter can operate.
+  - "Postcondition Checking", like catching potential
+    IMPLEMENTATION error that led to counter value outside the
+    allowed range.
+
+- The different behavior to indicated an out of range value
+  being set in the constructor and with `SetValue`
+  (exception thrown vs. return `bool`) has been not
+  implemented as.
+  - Reason: It might "surprise" users (= other developers
+    using that class) who have not thoroughly checked the
+    documentation.
+  - As it is not possible to indicate the problem with a
+    return value in both cases (as the constructor is
+    supposed to always leave a valid object) it was decided
+    to throw an exception in both cases.
+  - That behavior was implemented in a common helper
+    function (named `check_in_range_value`) it is guaranteed
+    to work consistently in both case.
 
 (For details do a side by side compare of the header and
 implementation files.)

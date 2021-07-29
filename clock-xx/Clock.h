@@ -1,4 +1,4 @@
-Days#ifndef CLOCK_H
+#ifndef CLOCK_H
 #define CLOCK_H
 
 #include <cstring>
@@ -21,11 +21,13 @@ class Clock : public IClock {
         return r;
     }
 public:
+    using value_type = UpDownCounter::value_type;
+    using OutOfRange = UpDownCounter::OutOfRangeValue;
     Clock(const char* name,
-          UpDownCounter::value_type days = 0,
-          UpDownCounter::value_type hours = 0,
-          UpDownCounter::value_type minutes = 0,
-          UpDownCounter::value_type seconds = 0)
+          value_type days = 0,
+          value_type hours = 0,
+          value_type minutes = 0,
+          value_type seconds = 0)
         : name_{strdup_to_unique_ptr(name)}
         , days_{days, 0, nullptr}
         , hours_{hours, 24, &days_}
@@ -38,13 +40,15 @@ public:
     Clock(Clock&&) noexcept;            // user-defined move c'tor
     Clock& operator=(Clock&&) noexcept; // user-defined move assignment
 
-    Clock& Days(unsigned v = 0)
+    const char* GetName() const
+        { return name_.get(); }
+    Clock& Days(value_type v = 0)
         { days_.SetValue(v); return *this; }
-    Clock& Hours(unsigned v = 0)
+    Clock& Hours(value_type v = 0)
         { hours_.SetValue(v); return *this; }
-    Clock& Minutes(unsigned v = 0)
+    Clock& Minutes(value_type v = 0)
         { minutes_.SetValue(v); return *this; }
-    Clock& Seconds(unsigned v = 0)
+    Clock& Seconds(value_type v = 0)
         { seconds_.SetValue(v); return *this; }
 
     virtual void Print(std::ostream&) const override final;

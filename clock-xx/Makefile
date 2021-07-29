@@ -12,4 +12,3 @@ clean:
 zip: clean
 	zip ../clock-12.zip *.txt *.cpp *.h Makefile
 .PHONY: all run unit_tests clean zip
-

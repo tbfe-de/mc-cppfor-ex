@@ -289,6 +289,8 @@ auto TickAll(const std::string& steps) {
                  // =================-
                 }
                 break;
+            default:
+               break;
             }
         }
     };

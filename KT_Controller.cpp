@@ -1,14 +1,12 @@
-#ifndef KT_Controller
-#define KT_Controller
+#ifndef KT_CONTROLLER_H
+#define KT_CONTROLLER_H
 
-#include "Clock.h"
-
+#include "clock-xx/Clock.h"
 
 // Statemachine for KitchenTimer:
 // - States: Ready, Running, Paused, Expired
-// - Events: SetDays, SetHours, SetMiniutes, SetSeconds, Start, Pause, Resume, Stop, Tick
+// - Events: SetDays, SetHours, SetMinutes, SetSeconds, Start, Pause, Resume, Stop, Tick
 //
-
 #include <iostream>
 #include <initializer_list>
 #include <type_traits>
@@ -37,18 +35,18 @@ private:
         SetMinute = Set | (1<<1),
         SetSecond = Set | (1<<0),
     };
-    static constexpr no_overlap() {
+    constexpr static bool no_overlap() {
         using UT = std::underlying_type_t<Event>;
-        for (UT ev{0}; ev <= UT{Tick}; ++ev) {
-            if ((UT{ev} & UT{Event::Set}) != 0) {
+        for (UT ev{0}; ev <= static_cast<UT>(Event::Tick); ++ev) {
+            if ((UT{ev} & static_cast<UT>(Event::Set)) != 0) {
                  return false;
             }
         }
         return true;
     }
 
-    static_assert(no_overlap());
-    // transtion description
+    //static_assert(no_overlap());
+    // transition description
     struct Transition {
         Event processed_event;
         ActionFunc action_function;
@@ -85,7 +83,6 @@ private:
     bool AttachClock(int, bool);
     bool DetachClock(int, bool);
     bool ResetClock(int, bool);
-    
 
     // state machine logic
     void Process(char);
@@ -152,8 +149,7 @@ bool KT_Controller::SetDay(int value, bool relative) const {
        init_days = v;
        return true;
     }
-    catch (UpDownCounter::OutOfRangeValue &) 
-    }
+    catch (UpDownCounter::OutOfRangeValue &) {}
 }
 
 bool KT_Controller::SetHour(int value, bool relative) const {
@@ -185,11 +181,10 @@ void KT_Controller::CountDownShow()
 template<KT_Controller::Event event, typename... Ts>
 void KT_Controller::Process(Ts... args) {
 {
-    vi 
     const auto previous_state = current_state_;
     for (const auto& transition : *current_state_) {
         if ((event == transition.processed_event)
-             CheckCondition(transition.guard_condition)) {
+            CheckCondition(transition.guard_condition)) {
             CallAction(transition.action_function);
             current_state_ = transition.next_state;
             std::cout << state_name(previous_state)
@@ -225,10 +220,8 @@ void KT_Controller::Run() {
     }
 }
 
-int main()
-{
+#endif
+
+int main() {
     KT_Controller{}.Run();
 }
-
-
-#endif

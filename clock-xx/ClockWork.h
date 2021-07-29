@@ -2,12 +2,15 @@
 #define CLOCKWORK_H
 
 #include <algorithm>
+#include <atomic>
 #include <cstdint>
 #include <functional>
+#include <thread>
 #include <unordered_map>
 #include <random>
 
 class ClockWork {
+    using ULL = unsigned long long;
 public:
     using ID_Generator = std::mt19937_64;
     using CallBackID = ID_Generator::result_type;
@@ -22,6 +25,8 @@ private:
         while (subscribers.count(result) > 0);
         return result;
     }
+    std::atomic<ULL> remaining_ticks{0};
+    std::thread runner{};
 public:
     ClockWork()                           =default;  
     ClockWork(const ClockWork&)            =delete;
@@ -38,7 +43,7 @@ public:
         subscribers.erase(id);
     }
     void tick();
-    void run(unsigned long long);
+    void run(ULL);
 };
 
 #endif
